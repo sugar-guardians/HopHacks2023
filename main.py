@@ -2,8 +2,8 @@ from fastapi import FastAPI, HTTPException, Body, Path
 from pydantic import BaseModel
 from pymongo import MongoClient
 from dotenv import load_dotenv
-from backend.schemas import PatientDataSchema, NurseDataSchema
-from backend.titration import BG_range_to_titration_matrix_row, TITRATION_MATRIX
+# from backend.schemas import PatientDataSchema, NurseDataSchema
+# from backend.titration import BG_range_to_titration_matrix_row, TITRATION_MATRIX
 import os
 
 load_dotenv()
@@ -28,6 +28,101 @@ class NurseLogin(BaseModel):
 class NurseDataInput(BaseModel):
     nurse_id: int
 
+class PatientDataSchema(BaseModel):
+    patient_name: str
+    patient_id: int
+    room_number: int
+    date_of_birth: str
+
+
+class NurseDataSchema(BaseModel):
+    nurse_id: int
+    nurse_name: str
+    patient_id: int
+    drip_started: bool
+
+def make_titration_matrix():
+    # Given col_1 values
+    col_1 = [0, 0.1, 0.2, 0.3, 0.3, 0.4, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.2, 1.4, 1.7, 2.1, 2.5, 3, 3.6, 4.4]
+
+    # Initialize an empty matrix
+    titration_matrix = []
+
+    # Iterate through col_1 values
+    for val in col_1:
+        # Initialize a row for the current col_1 value
+        row = [val]
+
+        # Calculate and append col_2 to col_16 values
+        for i in range(2, 17):
+            row.append(round(val * i, 2))
+
+        # Append the row to the matrix
+        titration_matrix.append(row)
+
+    titration_matrix[6] = [0.4, 0.9, 1.3, 1.8, 2.2, 2.7, 3.1, 3.6, 4, 4.5, 4.9, 5.4, 5.9, 6.4, 6.9, 7.4]
+    titration_matrix[4] = [0.3, 0.7, 1, 1.4, 1.7, 2.1, 2.4, 2.8, 3.2, 3.5, 3.8, 4.1, 4.4, 4.7, 5, 5.3]
+    return titration_matrix
+
+def BG_range_to_titration_matrix_row(blood_glucose_measurement):
+    # given a blood glucose measurement, output
+    if blood_glucose_measurement > 450:
+        return 20
+    elif 385 <= blood_glucose_measurement <= 450:
+        return 19
+    elif 334 <= blood_glucose_measurement <= 384:
+        return 18
+    elif 290 <= blood_glucose_measurement <= 333:
+        return 17
+    elif 251 <= blood_glucose_measurement <= 289:
+        return 16
+    elif 217 < blood_glucose_measurement <= 250:
+        return 15
+    elif 188 <= blood_glucose_measurement <= 216:
+        return 14
+    elif 163 <= blood_glucose_measurement <= 187:
+        return 13
+    elif 151 <= blood_glucose_measurement <= 162:
+        return 12
+    elif 141 <= blood_glucose_measurement <= 150:
+        return 11
+    elif 131 <= blood_glucose_measurement <= 140:
+        return 10
+    elif 121 <= blood_glucose_measurement <= 130:
+        return 9
+    elif 111 <= blood_glucose_measurement <= 120:
+        return 8
+    elif 106 <= blood_glucose_measurement <= 110:
+        return 7
+    elif 101 <= blood_glucose_measurement <= 105:
+        return 6
+    elif 96 <= blood_glucose_measurement <= 100:
+        return 5
+    elif 90 <= blood_glucose_measurement <= 95:
+        return 4
+    elif 80 <= blood_glucose_measurement <= 89:
+        return 3
+    elif 70 <= blood_glucose_measurement <= 79:
+        return 2
+    elif 60 <= blood_glucose_measurement <= 69:
+        return 1
+    elif blood_glucose_measurement < 60:
+        return 0
+
+def D50W_table(blood_glucose_measurement):
+    # input: BG measurement
+    if 80 <= blood_glucose_measurement <= 89:
+        return 0
+    elif 70 <= blood_glucose_measurement <= 79:
+        return 10
+    elif 60 <= blood_glucose_measurement <= 69:
+        return 15
+    elif 50 <= blood_glucose_measurement <= 59:
+        return 20
+    elif 30 <= blood_glucose_measurement <= 49:
+        return 25
+    elif blood_glucose_measurement < 30:
+        return 30
 
 @app.get("/")
 async def hello_world():
@@ -115,40 +210,40 @@ async def patient_data(nurse_id: int = Path(...)):
     return patient_data
 
 
-class TitrationRateInput():
-    patient_id: int
-    blood_glucose_measurement: int
+# class TitrationRateInput():
+#     patient_id: int
+#     blood_glucose_measurement: int
 
-@app.get("/titration-rate/{patient_id}")
-# patient_id, blood_glucose_measurement
-async def calculate_titration_rate(input: TitrationRateInput = Body(...)):
-    patient_id, blood_glucose_measurement = input
+# @app.get("/titration-rate/{patient_id}")
+# # patient_id, blood_glucose_measurement
+# async def calculate_titration_rate(input_data: TitrationRateInput = Body(...)):
+#     patient_id, blood_glucose_measurement = input_data
 
-    # Define constants for BG (blood glucose) ranges
-    LOW_BG_THRESHOLD = 90
-    HIGH_BG_THRESHOLD = 140
+#     # Define constants for BG (blood glucose) ranges
+#     LOW_BG_THRESHOLD = 90
+#     HIGH_BG_THRESHOLD = 140
 
-    # Given BG measurement, return the titration rate (ml/hr)
-    patient = patients_collection.find_one({"patient_id": patient_id})
+#     # Given BG measurement, return the titration rate (ml/hr)
+#     patient = patients_collection.find_one({"patient_id": patient_id})
     
-    if patient.titration_state:
-        prev_BG_range, col = patient.titration_state
-        BG_range = BG_range_to_titration_matrix_row(blood_glucose_measurement)
+#     if patient.titration_state:
+#         prev_BG_range, col = patient.titration_state
+#         BG_range = BG_range_to_titration_matrix_row(blood_glucose_measurement)
         
-        # Adjust the column based on BG range
-        if blood_glucose_measurement < LOW_BG_THRESHOLD:
-            col -= 1
-        elif blood_glucose_measurement > HIGH_BG_THRESHOLD and BG_range >= prev_BG_range:
-            col += 1
+#         # Adjust the column based on BG range
+#         if blood_glucose_measurement < LOW_BG_THRESHOLD:
+#             col -= 1
+#         elif blood_glucose_measurement > HIGH_BG_THRESHOLD and BG_range >= prev_BG_range:
+#             col += 1
         
-        return {"titration_rate": TITRATION_MATRIX[BG_range][col]}
+#         return {"titration_rate": TITRATION_MATRIX[BG_range][col]}
     
-    else:
-        BG_range = BG_range_to_titration_matrix_row(blood_glucose_measurement)
-        patient.titration_state = (BG_range, 1)
+#     else:
+#         BG_range = BG_range_to_titration_matrix_row(blood_glucose_measurement)
+#         patient.titration_state = (BG_range, 1)
 
-        # Always start in column 2
-        return {"titration_rate": TITRATION_MATRIX[BG_range][1]}
+#         # Always start in column 2
+#         return {"titration_rate": TITRATION_MATRIX[BG_range][1]}
     
 
 

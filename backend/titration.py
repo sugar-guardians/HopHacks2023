@@ -1,6 +1,4 @@
 # from pymongo import MongoClient
-
-
 def BG_range_to_titration_matrix_row(blood_glucose_measurement):
     # given a blood glucose measurement, output
     if blood_glucose_measurement > 450:
