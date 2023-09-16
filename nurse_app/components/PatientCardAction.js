@@ -1,22 +1,20 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, Button, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const styles = StyleSheet.create({
-  container: {
+  smallContainer: {
     height: 100,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     flex: 1,
-    backgroundColor: 'teal',
     paddingLeft: 10,
     paddingRight: 10,
   },
   avatarWrapper: {
     flex: 0.25,
-    backgroundColor: 'red',
     display: 'flex',
     alignItems: 'center',
   },
@@ -24,19 +22,15 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   textWrapper: {
-    flex: 0.5,
-    backgroundColor: 'grey',
+    flex: 0.65,
     display: 'flex',
     justifyContent: 'flex-start'
-  },
-  btnWrapper: {
-    flex: 0.3
   },
 });
 
 export default function PatientCard({ firstName, lastName, id, room, dob }) {
   return (
-    <View style={styles.container}>
+    <View style={styles.smallContainer}>
       <View style={styles.avatarWrapper}>
         <Icon name="user-circle" size={80} color="#323134" />
       </View>
@@ -44,9 +38,6 @@ export default function PatientCard({ firstName, lastName, id, room, dob }) {
         <Text style={styles.text}>{`${lastName}, ${firstName}`}</Text>
         <Text style={styles.text}>{`DOB: ${dob}`}</Text>
         <Text style={styles.text}>{`Room: ${room}`}</Text>
-      </View>
-      <View style={styles.btnWrapper}>
-        <Button title="Select" />
       </View>
     </View>
   );

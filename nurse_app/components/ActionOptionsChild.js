@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Button, TouchableOpacity, StyleSheet } from 'react-native';
-import PatientCard from './PatientCard';
+import PatientCardAction from './PatientCardAction';
 import BGInput from './BGInput';
 
 const styles = StyleSheet.create({
@@ -9,62 +9,59 @@ const styles = StyleSheet.create({
     height: 600,
   },
   first: {
-    flex: 0.33,
-    // backgroundColor: "green",
+    flex: 0.35,
   },
-  second: {
+  third: {
     display: 'flex',
-    flex: 0.33,
-    // backgroundColor: "tomato",
-    justifyContent: 'center',
+    flex: 0.4,
+    justifyContent: 'flex-start',
     alignItems: 'center',
+    marginTop: 50,
   },
-  // third: {
-  //   flex: 0.33,
-  //   // backgroundColor: "teal",
-  //   display: 'flex',
-  //   flexDirection: 'row',
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  // },
   text: {
     fontSize: 18,
     paddingBottom: 10,
     fontStyle: 'italic',
   },
   buttonContainer: {
-    flex: 0.33,
+    flex: 0.2,
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    // justifyContent: 'space-between',
+    alignItems: 'flex-start',
     marginVertical: 20,
   },
   button: {
-    flex: 1,
-    height: 50,
+    flex: 0.4,
+    height: 36,
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
   },
   buttonText1: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
     color: 'white',
   },
   buttonText2: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
     color: '#323134',
   },
   patientEating: {
-    backgroundColor: '#323134', // Blue
+    backgroundColor: '#323134',
+    justifySelf: 'flex-end',
+    flex: 0.5,
     marginRight: 10,
+    marginLeft: 20,
   },
   discontinueDrip: {
     borderColor: '#323134',
     borderStyle: 'solid',
     marginLeft: 10,
+    marginRight: 20,
     borderWidth: 2,
+    justifySelf: 'flex-start',
+    flex: 0.5,
   },
 });
 
@@ -72,7 +69,7 @@ export default function ActionOptionsChild() {
   return (
     <View style={styles.container}>
       <View style={styles.first}>
-        <PatientCard
+        <PatientCardAction
           firstName="John"
           lastName="Smith"
           id="0184329234"
@@ -80,17 +77,17 @@ export default function ActionOptionsChild() {
           room="14B"
         />
       </View>
-      <View style={styles.second}>
-        <Text style={styles.text}>Your next BG is due at 14:40.</Text>
-        <BGInput id="0184329234" />
-      </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={[styles.button, styles.patientEating]}>
-          <Text style={styles.buttonText1}>Patient Eating</Text>
+          <Text style={styles.buttonText1} numberOfLines={2}>Patient Eating</Text>
         </TouchableOpacity>
         <View style={[styles.button, styles.discontinueDrip]}>
-          <Text style={styles.buttonText2}>Discontinue Drip</Text>
+          <Text style={styles.buttonText2} numberOfLines={2}>Discontinue Drip</Text>
         </View>
+      </View>
+      <View style={styles.third}>
+        <Text style={styles.text}>Your next BG is due at 14:40.</Text>
+        <BGInput id="0184329234" />
       </View>
     </View>
   );

@@ -12,10 +12,10 @@ const styles = StyleSheet.create({
     width: 150,
     backgroundColor: '#CDC8C8',
     borderRadius: 10,
-    fontSize: 24,
+    fontSize: 32,
   },
   text: {
-    fontSize: 24,
+    fontSize: 28,
   },
   textWrapper: {
     height: 60,
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: '#5116FB',
-    borderRadius: 10,
+    borderRadius: 30,
     paddingVertical: 10,
     paddingHorizontal: 20,
     elevation: 3, // For Android shadow
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'white',
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
   },
 });
