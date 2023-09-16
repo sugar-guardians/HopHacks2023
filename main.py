@@ -3,6 +3,7 @@ from pydantic import BaseModel
 from pymongo import MongoClient
 from dotenv import load_dotenv
 from backend.schemas import PatientDataSchema, NurseDataSchema
+from backend.titration import BG_range_to_titration_matrix_row, TITRATION_MATRIX
 import os
 
 load_dotenv()
@@ -116,6 +117,35 @@ async def patient_data(nurse_id: int = Path(...)):
     # Return the patient data.
     return patient_data
 
+
+@app.get("/titration-rate")
+async def calculate_titration_rate(patient_id, blood_glucose_measurement):
+    # Define constants for BG (blood glucose) ranges
+    LOW_BG_THRESHOLD = 90
+    HIGH_BG_THRESHOLD = 140
+
+    # Given BG measurement, return the titration rate (ml/hr)
+    patient = patients_collection.find_one({"patient_id": patient_id})
+    
+    if patient.titration_state:
+        prev_BG_range, col = patient.titration_state
+        BG_range = BG_range_to_titration_matrix_row(blood_glucose_measurement)
+        
+        # Adjust the column based on BG range
+        if blood_glucose_measurement < LOW_BG_THRESHOLD:
+            col -= 1
+        elif blood_glucose_measurement > HIGH_BG_THRESHOLD and BG_range >= prev_BG_range:
+            col += 1
+        
+        return {"titration_rate": TITRATION_MATRIX[BG_range][col]}
+    
+    else:
+        BG_range = BG_range_to_titration_matrix_row(blood_glucose_measurement)
+        patient.titration_state = (BG_range, 1)
+
+        # Always start in column 2
+        return {"titration_rate": TITRATION_MATRIX[BG_range][1]}
+    
 
 
 # @app.post("/signup/")
