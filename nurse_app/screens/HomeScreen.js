@@ -30,7 +30,7 @@ function HomeScreen({ route, navigation }) {
     <View style={styles.container}>
       <Text style={styles.dateTime}>{currentDate}</Text>
       <Text style={styles.welcomeText}>Welcome! {nurseName}, you currently don't have a patient. Please click below to start one.</Text>
-      <TouchableOpacity style={styles.button} onPress={() => {/* Navigate to Add Patient Screen */}}>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Test')}>
         <Text style={styles.buttonText}>Add Patient</Text>
       </TouchableOpacity>
       <View style={styles.footer}>
