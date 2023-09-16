@@ -85,17 +85,14 @@ async def patient_data(nurse_id: int = Path(...)):
         raise HTTPException(status_code=400, detail="Nurse ID must be an integer.")
 
     # Get the nurse document from the nurses collection.
-    nurse_document = nurses_collection.find_one({"_id": nurse_id})
+    nurse = nurses_collection.find_one({"nurse_id": nurse_id})
 
     # If the nurse document does not exist, raise an exception.
-    if nurse_document is None:
+    if nurse is None:
         raise HTTPException(status_code=404, detail="Nurse not found.")
 
     # Get the patient IDs from the nurse document.
-    patient_ids = nurse_document["patient_ids"]
-
-    # Get the patient IDs from the nurse document.
-    patient_ids = nurse_document["patient_ids"]
+    patient_ids = nurse["patient_ids"]
 
     # Get the patient data from the patients collection.
     patient_data = []
@@ -118,8 +115,15 @@ async def patient_data(nurse_id: int = Path(...)):
     return patient_data
 
 
-@app.get("/titration-rate")
-async def calculate_titration_rate(patient_id, blood_glucose_measurement):
+class TitrationRateInput():
+    patient_id: int
+    blood_glucose_measurement: int
+
+@app.get("/titration-rate/{patient_id}")
+# patient_id, blood_glucose_measurement
+async def calculate_titration_rate(input: TitrationRateInput = Body(...)):
+    patient_id, blood_glucose_measurement = input
+
     # Define constants for BG (blood glucose) ranges
     LOW_BG_THRESHOLD = 90
     HIGH_BG_THRESHOLD = 140
