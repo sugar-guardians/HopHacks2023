@@ -9,7 +9,8 @@ app = FastAPI()
 
 client = MongoClient(os.getenv("MONGODB_URI"), tlsAllowInvalidCertificates=True)
 db = client["hospital"]
-collection = db["patients"]
+patient_collection = db["patients"]
+nurse_collection = db["nurses"]
 # db = client.nurse_db
 
 class NurseBase(BaseModel):
@@ -27,6 +28,15 @@ class PatientDataInput(BaseModel):
     patient_id: int
     room_number: int
     date_of_birth: str
+
+class NurseData(BaseModel):
+    nurse_id: int
+    nurse_name: str
+    patient_id: int
+    has_drip_started: bool
+
+class NurseDataInput(BaseModel):
+    nurse_id: int
 
 
 @app.get("/")
@@ -49,11 +59,15 @@ async def patient_data_input(patient_data_input: PatientDataInput = Body(...)):
         raise HTTPException(status_code=400, detail="Date of birth is required.")
 
     # Insert the patient data into MongoDB.
-    collection.insert_one(patient_data_input.dict())
+    patient_collection.insert_one(patient_data_input.dict())
 
     # Return a success response.
     return {"message": "Patient data stored successfully.", "patient_data": patient_data_input.dict()}
 
+
+@app.post("/nurse-patient-info")
+async def nurse_patient_info(nurse_id: NurseDataInput = Body(...)):
+    return {"data": nurse_id.dict()}
 
 # @app.post("/signup/")
 # async def create_nurse(nurse: NurseBase):
