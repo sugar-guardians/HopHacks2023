@@ -64,6 +64,8 @@ for val in col_1:
 titration_matrix[6] = [0.4, 0.9, 1.3, 1.8, 2.2, 2.7, 3.1, 3.6, 4, 4.5, 4.9, 5.4, 5.9, 6.4, 6.9, 7.4]
 titration_matrix[4] = [0.3, 0.7, 1, 1.4, 1.7, 2.1, 2.4, 2.8, 3.2, 3.5, 3.8, 4.1, 4.4, 4.7, 5, 5.3]
 # Print the matrix
-# for row in titration_matrix:
-#     print(row)
+for row in titration_matrix:
+    print(row)
+
+print(titration_matrix[range_to_titration_matrix_row(200)][7])
 
