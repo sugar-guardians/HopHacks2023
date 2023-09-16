@@ -27,11 +27,11 @@ function LoginScreen({ navigation }) {
       });
   };
 
-  
+
   return (
     <LinearGradient colors={['#7F7FD5', '#86A8E7', '#91EAE4']} style={styles.container}>
       <View style={styles.logoContainer}>
-        <Image source={require('./logo.jpg')} style={styles.logo} />
+        <Image source={require('../logo.jpg')} style={styles.logo} />
       </View>
       <TextInput
         style={styles.input}

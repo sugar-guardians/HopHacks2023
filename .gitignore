@@ -2,7 +2,11 @@
 env/
 __pycache__/
 <<<<<<< HEAD
+<<<<<<< HEAD
 .expo
 =======
 .expo
 >>>>>>> 1347b11df71a8e7219a9b840999a26258be28a1f
+=======
+.expo
+>>>>>>> fe
