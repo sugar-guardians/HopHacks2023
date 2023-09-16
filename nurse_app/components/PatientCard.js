@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, Button, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const styles = StyleSheet.create({
@@ -10,13 +10,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     flex: 1,
-    backgroundColor: 'teal',
     paddingLeft: 10,
     paddingRight: 10,
   },
   avatarWrapper: {
     flex: 0.25,
-    backgroundColor: 'red',
     display: 'flex',
     alignItems: 'center',
   },
@@ -24,13 +22,30 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   textWrapper: {
-    flex: 0.5,
-    backgroundColor: 'grey',
+    flex: 0.45,
     display: 'flex',
     justifyContent: 'flex-start'
   },
   btnWrapper: {
-    flex: 0.3
+    flex: 0.25,
+    display: 'flex',
+    alignItems: 'flex-start'
+  },
+  button: {
+    backgroundColor: '#5116FB',
+    borderRadius: 30,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    elevation: 3, // For Android shadow
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 
@@ -45,8 +60,13 @@ export default function PatientCard({ firstName, lastName, id, room, dob }) {
         <Text style={styles.text}>{`DOB: ${dob}`}</Text>
         <Text style={styles.text}>{`Room: ${room}`}</Text>
       </View>
-      <View style={styles.btnWrapper}>
+      {/* <View style={styles.btnWrapper}>
         <Button title="Select" />
+      </View> */}
+      <View style={styles.btnWrapper}>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>Select</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

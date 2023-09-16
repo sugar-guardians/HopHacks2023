@@ -8,7 +8,6 @@ import ActionOptionsChild from '../components/ActionOptionsChild'
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: 'grey',
     alignItems: 'center',
   },
 });
