@@ -33,7 +33,7 @@ function SignupScreen({ navigation }) {
   return (
     <LinearGradient colors={['#FF7E5F', '#FEA195', '#F6D365']} style={styles.container}>
       <View style={styles.logoContainer}>
-        <Image source={require('./logo.jpg')} style={styles.logo} />
+        <Image source={require('../logo.jpg')} style={styles.logo} />
       </View>
       <TextInput
         style={styles.input}
