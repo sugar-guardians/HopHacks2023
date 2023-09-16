@@ -33,6 +33,7 @@ class PatientDataInput(BaseModel):
 async def hello_world():
     return {"message": "Hello, world!"}
 
+
 @app.post("/patient-data-input")
 async def patient_data_input(patient_data_input: PatientDataInput = Body(...)):
     """Stores patient data in MongoDB."""
@@ -51,7 +52,8 @@ async def patient_data_input(patient_data_input: PatientDataInput = Body(...)):
     collection.insert_one(patient_data_input.dict())
 
     # Return a success response.
-    return {"message": "Patient data stored successfully."}
+    return {"message": "Patient data stored successfully.", "patient_data": patient_data_input.dict()}
+
 
 # @app.post("/signup/")
 # async def create_nurse(nurse: NurseBase):
@@ -66,5 +68,3 @@ async def patient_data_input(patient_data_input: PatientDataInput = Body(...)):
 #     if nurse_data:
 #         return {"message": "Login successful"}
 #     raise HTTPException(status_code=400, detail="Invalid credentials")
-
-# @app.post("/patient-data-input/")
