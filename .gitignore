@@ -1,5 +1,8 @@
 .DS_Store
-.env
 env/
 __pycache__/
+<<<<<<< HEAD
 .expo
+=======
+.expo
+>>>>>>> 1347b11df71a8e7219a9b840999a26258be28a1f
