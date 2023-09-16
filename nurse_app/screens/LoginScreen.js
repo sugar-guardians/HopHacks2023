@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet, Image } from 'react-native';
+import { Text, TextInput, TouchableOpacity, StyleSheet, Image, View, Alert} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 function LoginScreen({ navigation }) {
@@ -27,42 +27,35 @@ function LoginScreen({ navigation }) {
         console.error('Error:', error);
       });
   };
-
-
   return (
-    <LinearGradient colors={['#7F7FD5', '#86A8E7', '#91EAE4']} style={styles.container}>
+    <LinearGradient colors={['#989EF8', '#D0D7FF']} style={styles.container}>
       <View style={styles.logoContainer}>
         <Image source={require('../logo.jpg')} style={styles.logo} />
       </View>
-      <TextInput
-        style={styles.input}
-        placeholder="Nurse ID"
-        placeholderTextColor="#fff"
-        onChangeText={setNurseID}
-        value={nurseID}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        placeholderTextColor="#fff"
-        onChangeText={setPassword}
-        value={password}
-        secureTextEntry
-      />
-      <TouchableOpacity style={[styles.button, { backgroundColor: '#8A2BE2' }]} onPress={login}>
-        <Text style={styles.buttonText}>Login</Text>
+      <Image style={styles.logo} />
+      <Text style={styles.header}>LOGIN</Text>
+      <View style={styles.inputContainer}>
+        <Image style={styles.icon} />
+        <TextInput style={styles.input} placeholder="Nurse ID" onChangeText={setNurseID} value={nurseID}/>
+      </View>
+      <View style={styles.inputContainer}>
+        <Image style={styles.icon} />
+        <TextInput style={styles.input} placeholder="Password" secureTextEntry onChangeText={setPassword} value={password}/>
+      </View>
+      <TouchableOpacity style={styles.button}>
+        <Text style={styles.buttonText} onPress={login}>Login</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Signup')}>
-        <Text style={styles.buttonText}>Don't have an account? Sign Up</Text>
+      <TouchableOpacity>
+        <Text style={styles.linkText}>Don't have an account? Sign up</Text>
       </TouchableOpacity>
     </LinearGradient>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 16,
   },
   logoContainer: {
     alignItems: 'center',
@@ -73,24 +66,42 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
   },
-  input: {
-    borderColor: '#fff',
-    borderWidth: 1,
-    marginBottom: 20,
-    padding: 8,
-    borderRadius: 25,
+  header: {
+    fontSize: 24,
+    textAlign: 'center',
+    marginVertical: 20,
     color: '#fff',
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderRadius: 4,
+    padding: 10,
+    marginBottom: 10,
+    backgroundColor: '#fff',
+  },
+  icon: {
+    marginRight: 10,
+  },
+  input: {
+    flex: 1,
+    height: 40,
   },
   button: {
-    padding: 10,
-    borderRadius: 25,
+    backgroundColor: '#6C63FF',
+    padding: 15,
+    borderRadius: 4,
     alignItems: 'center',
-    marginVertical: 10,
-    backgroundColor: '#FF6347',
   },
   buttonText: {
-    fontSize: 16,
     color: '#fff',
+    fontSize: 16,
+  },
+  linkText: {
+    color: '#fff',
+    textAlign: 'center',
+    marginVertical: 15,
   },
 });
 
