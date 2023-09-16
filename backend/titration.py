@@ -1,4 +1,7 @@
-def range_to_titration_matrix_row(blood_glucose_measurement):
+from ..main import patients_collection
+
+def BG_range_to_titration_matrix_row(blood_glucose_measurement):
+    # given a blood glucose measurement, output 
     if blood_glucose_measurement > 450:
         return 20
     elif 385 <= blood_glucose_measurement <= 450:
@@ -67,5 +70,48 @@ titration_matrix[4] = [0.3, 0.7, 1, 1.4, 1.7, 2.1, 2.4, 2.8, 3.2, 3.5, 3.8, 4.1,
 for row in titration_matrix:
     print(row)
 
-print(titration_matrix[range_to_titration_matrix_row(200)][7])
+print(titration_matrix[BG_range_to_titration_matrix_row(200)][7])
 
+print(titration_matrix[BG_range_to_titration_matrix_row(140)][0])
+
+
+def D50W_table(blood_glucose_measurement):
+    # input: BG measurement
+    if 80 <= blood_glucose_measurement <= 89:
+        return 0
+    elif 70 <= blood_glucose_measurement <= 79:
+        return 10
+    elif 60 <= blood_glucose_measurement <= 69:
+        return 15
+    elif 50 <= blood_glucose_measurement <= 59:
+        return 20
+    elif 30 <= blood_glucose_measurement <= 49:
+        return 25
+    elif blood_glucose_measurement < 30:
+        return 30
+
+
+# patients_collection = db["patients"]
+
+def calculate_titration_rate(patient_id, blood_glucose_measurement):
+    # Given BG (blood glucose) measurement, return the titration rate (ml/hr)
+    patient = patients_collection.find_one({"patient_id": patient_id})
+    prev_BG_range, col = patient.tf_state
+    BG_range = BG_range_to_titration_matrix_row(blood_glucose_measurement)
+    r = BG_range
+    if blood_glucose_measurement < 90:
+        col -= 1
+    elif blood_glucose_measurement <= 140:
+        pass
+        # stay in same column
+    else:
+        if BG_range >= prev_BG_range:
+            col += 1
+        else:
+            # stay in same column
+            pass
+
+    return titration_matrix[r][col]
+
+
+    
