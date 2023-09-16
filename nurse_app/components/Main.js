@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   scrollArea: {
-    backgroundColor: 'yellow',
+    // backgroundColor: 'yellow',
     flex: 1,
   }
 });

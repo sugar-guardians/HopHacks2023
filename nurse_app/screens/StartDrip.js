@@ -29,7 +29,7 @@ const TestPage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'grey',
+    // backgroundColor: 'grey',
     alignItems: 'center',
   },
 });
