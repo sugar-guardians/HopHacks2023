@@ -62,6 +62,8 @@ def make_titration_matrix():
     titration_matrix[4] = [0.3, 0.7, 1, 1.4, 1.7, 2.1, 2.4, 2.8, 3.2, 3.5, 3.8, 4.1, 4.4, 4.7, 5, 5.3]
     return titration_matrix
 
+TITRATION_MATRIX = make_titration_matrix()
+
 def BG_range_to_titration_matrix_row(blood_glucose_measurement):
     # given a blood glucose measurement, output
     if blood_glucose_measurement > 450:
