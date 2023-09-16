@@ -67,4 +67,4 @@ async def patient_data_input(patient_data_input: PatientDataInput = Body(...)):
 #         return {"message": "Login successful"}
 #     raise HTTPException(status_code=400, detail="Invalid credentials")
 
-@app.post("/patient-data-input/")
+# @app.post("/patient-data-input/")
