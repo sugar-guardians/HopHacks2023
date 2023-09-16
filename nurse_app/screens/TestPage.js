@@ -3,19 +3,15 @@ import { View, Text, TouchableOpacity, Image, ScrollView, StyleSheet } from 'rea
 import Header from '../components/Header';
 import Main from '../components/Main';
 import Footer from '../components/Footer';
+import SelectPatientChild from '../components/SelectPatientChild';
 
 
+const patients = [
+  { firstName: 'John', lastName: 'Smith', dob: '07/25/1963', room: '14B', id: '0184329234' },
+  { firstName: 'Emily', lastName: 'Williams', dob: '11/09/1971', room: '2A', id: '203829489' },
+  { firstName: 'Donald', lastName: 'Ezwick', dob: '02/17/1969', room: '5A', id: '923084302' },
+]
 const TestPage = () => {
-  // Define a function to handle the button click event
-  const handleButtonClick = () => {
-    // Add your logic here for what should happen when the button is clicked
-    alert('Button clicked!');
-  };
-
-  // Get the current date and time
-  const currentDate = new Date();
-  const formattedDate = currentDate.toDateString();
-  const formattedTime = currentDate.toLocaleTimeString();
 
   const TestChild = () => (
     <Text>Hello!</Text>
@@ -24,7 +20,7 @@ const TestPage = () => {
   return (
     <View style={styles.container}>
       <Header />
-      <Main child={<TestChild />} />
+      <Main child={<SelectPatientChild patients={patients} />} />
       <Footer />
     </View>
   );

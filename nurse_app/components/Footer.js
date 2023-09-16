@@ -26,13 +26,17 @@ const styles = StyleSheet.create({
   },
   avatarInnerWrapper: {
     backgroundColor: 'pink',
-    height: 'auto',
+    height: 75,
+    width: 75,
     alignSelf: 'center',
+    borderRadius: '50%',
+    position: 'relative',
   },
   image: {
     height: 75,
     width: 75,
-    // objectFit: 'contain',
+    objectFit: 'fill',
+    position: 'absolute',
   }
 });
 
