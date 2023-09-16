@@ -19,7 +19,8 @@ function SignupScreen({ navigation }) {
       .then((data) => {
         if (data.message) {
           Alert.alert('Success', data.message);
-          navigation.navigate('Login');
+          navigation.navigate('Home', { nurseName: nurseName, nurseID: nurseID });  
+          // navigation.navigate('Login');
         } else {
           Alert.alert('Failed', 'Could not register');
         }

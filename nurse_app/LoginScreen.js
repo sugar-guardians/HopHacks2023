@@ -18,6 +18,7 @@ function LoginScreen({ navigation }) {
       .then((data) => {
         if (data.message) {
           Alert.alert('Success', data.message);
+          navigation.navigate('Home', { nurseName: 'John Doe', nurseID: '12345' });
         } else {
           Alert.alert('Failed', 'Invalid credentials');
         }
