@@ -32,11 +32,9 @@ class NurseLogin(BaseModel):
     nurseID: str
     password: str
 
-<<<<<<< HEAD
 @app.get("/hello")
 async def hello():
     return {"message": "success!"}
-=======
 @app.post("/add_insulin_chart/")
 async def add_insulin_chart(nurse: InsulinChart):
     # Replace the keys and values in the dictionaries below with your actual chart values
@@ -51,7 +49,7 @@ async def add_insulin_chart(nurse: InsulinChart):
        "bg_level": "60-69",
         "columns": [
             0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3, 3.1, 3.2
-        ] 
+        ]
     },
     {
         "bg_level": "70-79",
@@ -63,7 +61,7 @@ async def add_insulin_chart(nurse: InsulinChart):
        "bg_level": "80-89",
         "columns": [
             0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3, 3.1, 3.2
-        ] 
+        ]
     },
     {
         "bg_level": "90-95",
@@ -75,13 +73,13 @@ async def add_insulin_chart(nurse: InsulinChart):
        "bg_level": "96-100",
         "columns": [
             0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3, 3.1, 3.2
-        ] 
+        ]
     },
     {
        "bg_level": "101-105",
         "columns": [
             0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3, 3.1, 3.2
-        ] 
+        ]
     },
     {
         "bg_level": "106-110",
@@ -93,7 +91,7 @@ async def add_insulin_chart(nurse: InsulinChart):
        "bg_level": "111-120",
         "columns": [
             0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3, 3.1, 3.2
-        ] 
+        ]
     },
     {
         "bg_level": "121-130",
@@ -105,7 +103,7 @@ async def add_insulin_chart(nurse: InsulinChart):
        "bg_level": "131-140",
         "columns": [
             0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3, 3.1, 3.2
-        ] 
+        ]
     },
     {
         "bg_level": "141-150",
@@ -117,13 +115,13 @@ async def add_insulin_chart(nurse: InsulinChart):
        "bg_level": "151-162",
         "columns": [
             0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3, 3.1, 3.2
-        ] 
+        ]
     },
     {
        "bg_level": "163-187",
         "columns": [
             0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3, 3.1, 3.2
-        ] 
+        ]
     },
     {
         "bg_level": "188-216",
@@ -135,7 +133,7 @@ async def add_insulin_chart(nurse: InsulinChart):
        "bg_level": "217-250",
         "columns": [
             0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3, 3.1, 3.2
-        ] 
+        ]
     },
     {
         "bg_level": "251-289",
@@ -147,7 +145,7 @@ async def add_insulin_chart(nurse: InsulinChart):
        "bg_level": "290-333",
         "columns": [
             0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3, 3.1, 3.2
-        ] 
+        ]
     },
     {
         "bg_level": "334-384",
@@ -159,13 +157,13 @@ async def add_insulin_chart(nurse: InsulinChart):
        "bg_level": "385-450",
         "columns": [
             0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3, 3.1, 3.2
-        ] 
+        ]
     },
     {
        "bg_level": "450-500",
         "columns": [
             0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3, 3.1, 3.2
-        ] 
+        ]
     }
     ]
 
@@ -174,7 +172,6 @@ async def add_insulin_chart(nurse: InsulinChart):
         return {"message": "Insulin chart added successfully"}
     else:
         raise HTTPException(status_code=400, detail="Insulin chart already exists")
->>>>>>> 5a16a2c45b814f1e104aa8effdefbdc36a4136e9
 
 @app.post("/signup/")
 async def create_nurse(nurse: NurseBase):
