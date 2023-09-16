@@ -1,10 +1,23 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet, Image } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet, Image, Platform, Animated } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 function LoginScreen({ navigation }) {
   const [nurseID, setNurseID] = useState('');
   const [password, setPassword] = useState('');
+
+  const fadeAnim = useState(new Animated.Value(0))[0];  // Initial value for opacity: 0
+
+  React.useEffect(() => {
+    Animated.timing(
+      fadeAnim,
+      {
+        toValue: 1,
+        duration: 2000,
+        useNativeDriver: true,
+      }
+    ).start();
+  }, [fadeAnim])
 
   const login = () => {
     fetch('http://localhost:8000/login/', {
@@ -17,8 +30,9 @@ function LoginScreen({ navigation }) {
       .then((response) => response.json())
       .then((data) => {
         if (data.message) {
-          Alert.alert('Success', data.message);
-          navigation.navigate('Home', { nurseName: 'John Doe', nurseID: '12345' });
+          // Alert.alert('Success', data.message);
+          navigation.navigate('IntroVideo');
+          // navigation.navigate('Home', { nurseName: 'John Doe', nurseID: '12345' });
         } else {
           Alert.alert('Failed', 'Invalid credentials');
         }
@@ -29,23 +43,27 @@ function LoginScreen({ navigation }) {
   };
   return (
     <LinearGradient colors={['#989EF8', '#D0D7FF']} style={styles.container}>
-      <Image style={styles.logo}/>
+      {/* <Image style={styles.logo}/> */}
+      <View style={styles.logoContainer}>
+        <Image source={require('../logo.jpg')} style={styles.logo} />
+      </View>
       <Text style={styles.header}>Login</Text>
-      <View style={styles.inputContainer}>
-        <Image style={styles.icon}/>
+      
+      <Animated.View style={[styles.inputContainer, { opacity: fadeAnim }]}>
+        <Image style={styles.icon} source={require('../email.png')}/>
         <TextInput style={styles.input} placeholder="Nurse ID" onChangeText={setNurseID}
         value={nurseID} />
-      </View>
-      <View style={styles.inputContainer}>
-        <Image style={styles.icon}/>
+      </Animated.View>
+      <Animated.View style={[styles.inputContainer, { opacity: fadeAnim }]}>
+        <Image style={styles.icon} source={require('../password.png')}/>
         <TextInput style={styles.input} placeholder="Password" onChangeText={setPassword}
         value={password} secureTextEntry />
-      </View>
+      </Animated.View>
       <TouchableOpacity style={styles.button} onPress={login}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
       <TouchableOpacity>
-        <Text style={styles.linkText}>Don't have an account? Sign up</Text>
+        <Text style={styles.linkText} onPress={() => navigation.navigate('Signup')}>Don't have an account? Sign up</Text>
       </TouchableOpacity>
     </LinearGradient>
   );
@@ -56,11 +74,14 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
+  logoContainer: {
+    alignItems: 'center',
+    marginBottom: 20,
+  },
   logo: {
-    alignSelf: 'center',
-    margin: 20,
-    height: 100,
     width: 100,
+    height: 100,
+    borderRadius: 50,
   },
   header: {
     fontSize: 24,
@@ -72,12 +93,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderRadius: 4,
+    borderRadius: 20,  // Increased borderRadius to make the inputs more rounded
     padding: 10,
     marginBottom: 10,
     backgroundColor: '#fff',
   },
   icon: {
+    height: 20,  // Specify a height for your icons
+    width: 20,
     marginRight: 10,
   },
   input: {
@@ -90,14 +113,22 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     alignItems: 'center',
   },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
+  button: {
+    backgroundColor: '#6C63FF',
+    padding: 15,
+    borderRadius: 20,
+    alignItems: 'center',
+    ...Platform.select({
+      web: { cursor: 'pointer' },
+    }),
   },
   linkText: {
-    color: '#fff',
+    color: '#e3d',
     textAlign: 'center',
     marginVertical: 15,
+    ...Platform.select({
+      web: { cursor: 'pointer' },
+    }),
   },
 });
 
