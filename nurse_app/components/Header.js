@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import { View, Text, StyleSheet } from 'react-native';
+import { useFonts, Raleway_700Bold } from '@expo-google-fonts/raleway';
 
 const styles = StyleSheet.create({
   container: {
@@ -10,11 +11,15 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   text: {
-    fontSize: 20,
+    fontSize: 24,
+    fontFamily: 'Raleway_700Bold',
+    color: '#5116FB',
   }
 });
 
 export default function Header() {
+  let [fontsLoaded, fontError] = useFonts({ Raleway_700Bold });
+
   const [currentDate, setCurrentDate] = useState(new Date());
 
   useEffect(() => {
@@ -26,6 +31,10 @@ export default function Header() {
 
     return () => clearInterval(intervalId); // Clear the interval on component unmount
 }, []);
+
+  if (!fontsLoaded && !fontError) {
+    return null;
+  }
 
   return (
     <View style={styles.container}>
