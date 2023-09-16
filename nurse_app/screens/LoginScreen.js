@@ -84,10 +84,11 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   header: {
-    fontSize: 24,
+    fontFamily: 'Helvetica',
+    fontSize: 27,
     textAlign: 'center',
     marginVertical: 20,
-    color: '#fff',
+    color: '#000',
   },
   inputContainer: {
     flexDirection: 'row',
