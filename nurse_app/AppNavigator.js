@@ -3,8 +3,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import IntroVideoScreen from './screens/IntroVideoScreen';
 import LoginScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
-import HomeScreen from './screens/HomeScreen';
 import StartDrip from './screens/StartDrip';
+import HomeScreen from './screens/HomeScreen';
 import Titrate from './screens/Titrate';
 import Instructions from './screens/Instructions';
 
