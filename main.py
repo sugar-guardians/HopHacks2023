@@ -214,7 +214,7 @@ class TitrationRateInput(BaseModel):
     patient_id: int
     blood_glucose_measurement: int
 
-@app.post("/titration-rate/{patient_id}")
+@app.post("/titration-rate")
 # patient_id, blood_glucose_measurement
 async def calculate_titration_rate(input_data: TitrationRateInput = Body(...)):
     patient_id, blood_glucose_measurement = input_data
