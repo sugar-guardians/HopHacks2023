@@ -12,7 +12,7 @@ client = MongoClient(os.getenv("MONGODB_URI"), tlsAllowInvalidCertificates=True)
 db = client["hospital"]
 patients_collection = db["patients"]
 nurses_collection = db["nurses"]
-# db = client.nurse_db
+
 
 class NurseBase(BaseModel):
     nurse_name: str
