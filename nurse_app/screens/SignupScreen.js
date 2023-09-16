@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet, Image } from 'react-native';
+import { Text, TextInput, TouchableOpacity, StyleSheet, Image, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+
 function SignupScreen({ navigation }) {
   const [nurseName, setNurseName] = useState('');
   const [nurseID, setNurseID] = useState('');
@@ -18,8 +19,9 @@ function SignupScreen({ navigation }) {
       .then((response) => response.json())
       .then((data) => {
         if (data.message) {
-          Alert.alert('Success', data.message);
-          navigation.navigate('Home', { nurseName: nurseName, nurseID: nurseID });  
+          // Alert.alert('Success', data.message);
+          navigation.navigate('IntroVideo');
+          // navigation.navigate('Home', { nurseName: nurseName, nurseID: nurseID });  
           // navigation.navigate('Login');
         } else {
           Alert.alert('Failed', 'Could not register');
@@ -29,81 +31,102 @@ function SignupScreen({ navigation }) {
         console.error('Error:', error);
       });
   };
-
   return (
-    <LinearGradient colors={['#FF7E5F', '#FEA195', '#F6D365']} style={styles.container}>
+    <LinearGradient colors={['#989EF8', '#D0D7FF']} style={styles.container}>
+      {/* <Image style={styles.logo} /> */}
       <View style={styles.logoContainer}>
         <Image source={require('../logo.jpg')} style={styles.logo} />
       </View>
-      <TextInput
-        style={styles.input}
-        placeholder="Nurse Name"
-        placeholderTextColor="#fff"
-        onChangeText={setNurseName}
-        value={nurseName}
-      />
+      <Text style={styles.header}>Create Your Account</Text>
+      <View style={styles.inputContainer}>
+        <Image style={styles.icon} source={require('../name.jpeg')}/>
+        <TextInput style={styles.input} placeholder="Name"  onChangeText={setNurseName}
+        value={nurseName}/>
+      </View>
+      <View style={styles.inputContainer}>
+      <Image style={styles.icon} source={require('../id.png')}/>
       <TextInput
         style={styles.input}
         placeholder="Nurse ID"
-        placeholderTextColor="#fff"
         onChangeText={setNurseID}
         value={nurseID}
       />
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        placeholderTextColor="#fff"
-        onChangeText={setEmail}
-        value={email}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        placeholderTextColor="#fff"
-        onChangeText={setPassword}
-        value={password}
-        secureTextEntry
-      />
-      <TouchableOpacity style={[styles.button, { backgroundColor: '#32CD32' }]} onPress={signup}>
-        <Text style={styles.buttonText}>Sign Up</Text>
+      </View>
+      <View style={styles.inputContainer}>
+        <Image style={styles.icon} source={require('../email.png')}/>
+        <TextInput style={styles.input} placeholder="Email" keyboardType="email-address" onChangeText={setEmail}
+        value={email}/>
+      </View>
+      <View style={styles.inputContainer}>
+        <Image style={styles.icon} source={require('../password.png')}/>
+        <TextInput style={styles.input} placeholder="Password"  onChangeText={setPassword}
+        value={password} secureTextEntry />
+      </View>
+      <TouchableOpacity style={styles.button} onPress={signup}>
+        <Text style={styles.buttonText} >Signup</Text>
+      </TouchableOpacity>
+      <TouchableOpacity>
+        <Text style={styles.linkText} onPress={() => navigation.navigate('Login')}>Already have an account? Login</Text>
       </TouchableOpacity>
     </LinearGradient>
   );
-}
+};
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 20,
-      },
-      logoContainer: {
-        alignItems: 'center',
-        marginBottom: 20,
-      },
-      logo: {
-        width: 100,
-        height: 100,
-        borderRadius: 50,
-      },
-      input: {
-        borderColor: '#fff',
-        borderWidth: 1,
-        marginBottom: 20,
-        padding: 8,
-        borderRadius: 25,
-        color: '#fff',
-      },
-      button: {
-        padding: 10,
-        borderRadius: 25,
-        alignItems: 'center',
-        marginVertical: 10,
-        backgroundColor: '#FF6347',
-      },
-      buttonText: {
-        fontSize: 16,
-        color: '#fff',
-      },
-  });
+  container: {
+    flex: 1,
+    padding: 16,
+  },
+  logoContainer: {
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  logo: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+  },
+  header: {
+    fontFamily: 'Helvetica',
+    fontSize: 27,
+    textAlign: 'center',
+    marginVertical: 20,
+    color: '#000',
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderRadius: 20,
+    padding: 10,
+    marginBottom: 10,
+    backgroundColor: '#fff',
+  },
+  icon: {
+    height: 20,
+    width: 20,
+    marginRight: 10,
+  },
+  input: {
+    flex: 1,
+    height: 40,
+    
+  },
+  button: {
+    backgroundColor: '#6C63FF',
+    padding: 15,
+    borderRadius: 20,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+  },
+  linkText: {
+    color: '#fff',
+    textAlign: 'center',
+    marginVertical: 15,
+  },
+});
 
 export default SignupScreen;
