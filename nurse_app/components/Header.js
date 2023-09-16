@@ -4,10 +4,10 @@ import { View, Text, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.1,
+    flex: 0.15,
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
   },
   text: {
     fontSize: 20,
