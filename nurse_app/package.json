@@ -8,11 +8,16 @@
     "web": "expo start --web"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@expo-google-fonts/raleway": "^0.2.3",
+=======
+    "@fontsource/raleway": "^5.0.8",
+>>>>>>> tirth
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/stack": "^6.3.17",
     "date-fns": "^2.30.0",
     "expo": "~49.0.11",
+<<<<<<< HEAD
     "expo-font": "~11.4.0",
     "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",
@@ -20,6 +25,12 @@
     "react-native": "0.72.4",
     "react-native-linear-gradient": "^2.8.3",
     "react-native-vector-icons": "^10.0.0"
+=======
+    "expo-av": "~13.4.1",
+    "expo-linear-gradient": "~12.3.0",
+    "expo-splash-screen": "~0.20.5",
+    "react-native-linear-gradient": "^2.8.3"
+>>>>>>> tirth
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
