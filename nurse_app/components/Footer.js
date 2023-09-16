@@ -14,16 +14,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingLeft: 30,
   },
-  avatar: {
+  avatarWrapper: {
     flex: 0.4,
     backgroundColor: 'red',
     paddingRight: 30,
+    display: 'flex',
+    justifyContent: 'center',
   },
   text: {
     fontSize: 20,
   },
+  avatarInnerWrapper: {
+    backgroundColor: 'pink',
+    height: 'auto',
+    alignSelf: 'center',
+  },
   image: {
-    objectFit: 'contain',
+    height: 75,
+    width: 75,
+    // objectFit: 'contain',
   }
 });
 
@@ -35,11 +44,13 @@ export default function Footer() {
         <Text style={styles.text}>Unit: 3A</Text>
         <Text style={styles.text}>Registered Nurse</Text>
       </View>
-      <View style={styles.avatar}>
-        <Image
-          style={styles.image}
-          source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/5/59/User-avatar.svg' }}
-        />
+      <View style={styles.avatarWrapper}>
+        <View style={styles.avatarInnerWrapper}>
+          <Image
+            style={styles.image}
+            source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/40px-User-avatar.svg.png?20201213175635' }}
+          />
+        </View>
       </View>
     </View>
   );
