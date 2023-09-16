@@ -1,7 +1,6 @@
 # OSX
 #
 .DS_Store
-nurse_app/ios
 
 # Xcode
 #
@@ -29,3 +28,5 @@ project.xcworkspace
 
 # CocoaPods
 /Pods/
+
+ios/

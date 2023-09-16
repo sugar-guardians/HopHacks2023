@@ -13,12 +13,14 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
+    fontStyle: 'italic',
   }
 });
 
 export default function SelectPatientChild({ patients }) {
   return (
     <View style={styles.container}>
+      <Text style={styles.text}>Select a patient to start the insulin drip.</Text>
       {patients.map(({firstName, lastName, id, room, dob }) => (
         <PatientCard
           key={id}

@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   },
   btnWrapper: {
 
-  }
+  },
 });
 
 export default function PatientCard({ firstName, lastName, id, room, dob }) {
@@ -34,7 +34,7 @@ export default function PatientCard({ firstName, lastName, id, room, dob }) {
         <Text>{`Room: ${room}`}</Text>
       </View>
       <View style={styles.btnWrapper}>
-        <Button title="Submit" />
+        <Button title="Select" />
       </View>
     </View>
   );
