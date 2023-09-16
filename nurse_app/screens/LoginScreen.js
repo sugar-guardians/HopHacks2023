@@ -112,12 +112,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderRadius: 4,
+    borderRadius: 20,
     padding: 10,
     marginBottom: 10,
     backgroundColor: '#fff',
   },
   icon: {
+    height: 20,
+    width: 20,
     marginRight: 10,
   },
   input: {
@@ -127,7 +129,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: '#6C63FF',
     padding: 15,
-    borderRadius: 4,
+    borderRadius: 20,
     alignItems: 'center',
   },
   button: {
