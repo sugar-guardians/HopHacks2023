@@ -21,6 +21,10 @@ class NurseLogin(BaseModel):
     nurseID: str
     password: str
 
+@app.get("/")
+async def hello_world():
+    return {"message": "Hello, world!"}
+
 @app.post("/signup/")
 async def create_nurse(nurse: NurseBase):
     if db.nurses.find_one({"nurseID": nurse.nurseID}):
