@@ -32,13 +32,6 @@ class PatientDataSchema(BaseModel):
     room_number: int
     date_of_birth: str
 
-
-class NurseDataSchema(BaseModel):
-    nurse_id: int
-    nurse_name: str
-    patient_id: int
-    drip_started: bool
-
 def make_titration_matrix():
     # Given col_1 values
     col_1 = [0, 0.1, 0.2, 0.3, 0.3, 0.4, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.2, 1.4, 1.7, 2.1, 2.5, 3, 3.6, 4.4]
@@ -63,6 +56,13 @@ def make_titration_matrix():
     return titration_matrix
 
 TITRATION_MATRIX = make_titration_matrix()
+
+class NurseDataSchema(BaseModel):
+    nurse_id: int
+    nurse_name: str
+    patient_id: int
+    drip_started: bool
+
 
 def BG_range_to_titration_matrix_row(blood_glucose_measurement):
     # given a blood glucose measurement, output
@@ -210,7 +210,7 @@ async def patient_data(nurse_id: int = Path(...)):
     return patient_data
 
 
-class TitrationRateInput():
+class TitrationRateInput(BaseModel):
     patient_id: int
     blood_glucose_measurement: int
 
