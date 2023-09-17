@@ -5,19 +5,16 @@ from pymongo import MongoClient
 import os
 from bson import ObjectId
 from fastapi import BackgroundTasks
-from twilio.rest import Client
+from twilio.rest import Client as TwilioClient
 
-account_sid = 'AC6380f4e379a140460b4b532bfa68ed94'
-auth_token = 'ecb058ec180dd0e1eb54a56ccf9fcab6'
-client = Client(account_sid, auth_token)
+twilio_client = TwilioClient(os.getenv("account_sid"), os.getenv("auth_token"))
 def send_sms(phone_number):
-    for i in range(5):
-        message = client.messages.create(
-          from_='+18555142486',
-          body='Reminder!!!\nTime to check BG and Titrate.',
-          to=phone_number
-        )
-        print(message.sid)
+    message = twilio_client.messages.create(
+    from_='+18555142486',
+    body='Reminder!!!\nTime to check BG and Titrate.',
+    to=phone_number
+    )
+    print(message.sid)
         # time.sleep(12)  # Wait for 12 seconds before sending the next SMS
 
 def nurse_to_json(nurse):
@@ -39,6 +36,7 @@ class NurseBase(BaseModel):
     nurseID: str
     email: str
     password: str
+    phone: str
 
 class NurseLogin(BaseModel):
     nurseID: str
