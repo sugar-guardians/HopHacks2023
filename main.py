@@ -35,9 +35,6 @@ nurses_collection = db["nurses"]
 twilio_client = TwilioClient(os.getenv("account_sid"), os.getenv("auth_token"))
 
 
-
-
-
 class NurseDataInput(BaseModel):
     nurse_id: int
 
@@ -159,17 +156,17 @@ async def nurse_patient_data(nurse_id: int = Path(...)):
     # Validate the nurse ID.
     if not isinstance(nurse_id, int):
         raise HTTPException(status_code=400, detail="Nurse ID must be an integer.")
-    
+
     # Get the nurse document from the nurses collection.
     nurse = nurses_collection.find_one({"nurse_id": nurse_id})
 
     # If the nurse document does not exist, raise an exception.
     if nurse is None:
         raise HTTPException(status_code=404, detail="Nurse not found.")
-    
+
     if not nurse.drip_started:
         return ({"message", "No patient with active drip, click the button to start a drip.\n"})
-    
+
     return {"message": nurse.patient_document}
 
 
@@ -243,17 +240,17 @@ async def calculate_titration_rate(body: TitrationRateInput = Body(...)):
     # Define constants for BG (blood glucose) ranges
     LOW_BG_THRESHOLD = 90
     HIGH_BG_THRESHOLD = 140
-    
+
     patient = patients_collection.find_one({"$or": [{"patient_id": str(patient_id)}, {"patient_id": int(patient_id)}]})
     if not patient:
          return {"status_code": 404, "message": "Patient not found"}
-    
+
     # return {list(patient.keys())[6]}
     # return {patient['titration_state']}
     #######return {patient['titration_state'] == None}
     # return {len(patient['titration_state']) == 0}
     # return {type(patient['titration_state'])}
-    
+
     if patient['titration_state'] != None:
         titration_history = patient['titration_state']
         prev_BG_range, col = titration_history[-1]
@@ -273,15 +270,15 @@ async def calculate_titration_rate(body: TitrationRateInput = Body(...)):
         # updated_titration_history = patient['titration_state'].append((BG_range, col))
         titration_history.append((BG_range, col))
         patients_collection.update_one({"patient_id": int(patient_id)}, {"$set": {"titration_state": titration_history}})
-        
+
         return {
             "titration_rate": TITRATION_MATRIX[BG_range][col],
             "prev_titration_rate": TITRATION_MATRIX[prev_BG_range][prev_col],
             "current_BG": blood_glucose_measurement,
-            # "prev_BG": 
+            # "prev_BG":
             "DW50_dosage": DW50_dosage
         }
-    
+
     else:
         # New inpatient
         BG_range = BG_range_to_titration_matrix_row(blood_glucose_measurement)
@@ -297,7 +294,7 @@ async def calculate_titration_rate(body: TitrationRateInput = Body(...)):
             "DW50_dosage": 0,
             "action": None
         }
-    
+
 
 
 class NurseBase(BaseModel):
@@ -312,7 +309,7 @@ class NurseBase(BaseModel):
 async def create_nurse(background_tasks: BackgroundTasks, nurse: NurseBase):
     if db1.nurses.find_one({"nurseID": nurse.nurseID}):
         raise HTTPException(status_code=400, detail="NurseID already registered")
-    
+
     db1.nurses.insert_one(nurse.dict())
     nurse_data1 = db1.nurses.find_one({"nurseID": nurse.nurseID})
     background_tasks.add_task(send_sms, nurse.phone)
