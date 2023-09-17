@@ -139,7 +139,7 @@ async def patient_data_input(patient_data_input: PatientDataSchema = Body(...)):
 
 @app.get("/nurse-patient-data/{nurse_id}")
 async def nurse_patient_data(nurse_id: int = Path(...)):
-    """Retrieves the patient data for a given nurse."""
+    """Retrieves the currrent patient data for a given nurse."""
 
     # Validate the nurse ID.
     if not isinstance(nurse_id, int):
@@ -158,9 +158,9 @@ async def nurse_patient_data(nurse_id: int = Path(...)):
     return {"message": nurse.patient_document}
 
 
-@app.get("/get-patient")
-async def patient_data(nurse_id: int = Path(...)):
-    """Retrieves the patient data for a given nurse."""
+@app.get("/get-all-patient-data/{nurse_id}")
+async def get_all_patient_data(nurse_id: int = Path(...)):
+    """Retrieves all patient data for a given nurse."""
 
     # Validate the nurse ID.
     if not isinstance(nurse_id, int):
@@ -187,10 +187,11 @@ async def patient_data(nurse_id: int = Path(...)):
 
         # Add the patient data to the list.
         patient_data.append({
-            "patient_name": patient_document["patient_name"],
             "patient_id": patient_id,
-            "room_number": patient_document["room_number"],
-            "date_of_birth": patient_document["date_of_birth"]
+            "patient_name": patient_document["name"],
+            "date_of_birth": patient_document["date_of_birth"],
+            "room_no": patient_document["room_no"],
+            "hours_since_last_meal": patient_document["hours_since_last_meal"]
         })
 
     # Return the patient data.
@@ -277,7 +278,8 @@ async def calculate_titration_rate(body: TitrationRateInput = Body(...)):
             "prev_titration_rate": None,
             "current_BG": blood_glucose_measurement,
             "prev_BG": None,
-            "DW50_dosage": 0
+            "DW50_dosage": 0,
+            "action": None
         }
     
 
