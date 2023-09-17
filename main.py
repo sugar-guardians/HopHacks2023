@@ -35,9 +35,7 @@ nurses_collection = db["nurses"]
 
 
 
-class NurseLogin(BaseModel):
-    nurse_id: str
-    password: str
+
 
 class NurseDataInput(BaseModel):
     nurse_id: int
@@ -302,8 +300,8 @@ async def calculate_titration_rate(body: TitrationRateInput = Body(...)):
 
 
 class NurseBase(BaseModel):
+    nurse_id: int
     nurse_name: str
-    nurse_id: str
     email: str
     password: str
     phone: int
@@ -312,22 +310,26 @@ class NurseBase(BaseModel):
 @app.post("/signup")
 async def create_nurse(background_tasks: BackgroundTasks, nurse: NurseBase):
     print('---------> successfully received request' )
-    if nurses_collection.find_one({"nurse_id": nurse.nurseID}):
-        raise HTTPException(status_code=400, detail="NurseID already registered")
+    if nurses_collection.find_one({"nurse_id": nurse.nurse_id}):
+        raise HTTPException(status_code=400, detail="Nurse ID already registered")
     
     nurses_collection.insert_one(nurse.dict())
-    nurse_data = nurses_collection.find_one({"nurseID": nurse.nurseID})
+    # nurse_data = nurses_collection.find_one({"nurse ID": nurse.nurse_id})
     background_tasks.add_task(send_sms, nurse.phone)
-    return {"nurse_data": nurse_data, "message": "Nurse created successfully"}
+    return {"nurse_data": nurse.dict(), "message": "Nurse created successfully"}
 
+
+class NurseLogin(BaseModel):
+    nurse_id: int
+    password: str
 
 @app.post("/login")
-async def login_nurse(background_tasks: BackgroundTasks, nurse: NurseLogin):
+async def login_nurse(background_tasks: BackgroundTasks, nurse_login_data: NurseLogin):
     print('---------> successfully received request' )
 
-    nurse_data = nurses_collection.find_one({"nurse_id": nurse.nurseID, "password": nurse.password})
-    if nurse_data:
-        background_tasks.add_task(send_sms, nurse.phone)
+    nurse = nurses_collection.find_one({"nurse_id": nurse_login_data.nurse_id, "password": nurse_login_data.password})
+    if nurse:
+        # background_tasks.add_task(send_sms, nurse.phone)
         return {"message": "Login successful"}
 
     raise HTTPException(status_code=400, detail="Invalid credentials")
