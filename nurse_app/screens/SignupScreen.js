@@ -12,7 +12,7 @@ function SignupScreen({ navigation }) {
   const [password, setPassword] = useState('');
 
   const signup = () => {
-    fetch('https://hophacks2023-w74ytc52eq-uc.a.run.app/signup/', {
+    fetch('http://localhost:8000/signup/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
