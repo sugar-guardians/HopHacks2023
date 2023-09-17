@@ -9,7 +9,7 @@ from twilio.rest import Client as TwilioClient
 
 load_dotenv()   # load environment variables from .env
 
-twilio_client = TwilioClient(os.getenv("account_sid"), os.getenv("auth_token"))
+
 def send_sms(phone_number):
     message = twilio_client.messages.create(
         from_='+18555142486',
@@ -29,9 +29,10 @@ app = FastAPI()
 
 client = MongoClient(os.getenv("MONGODB_URI"), tlsAllowInvalidCertificates=True)
 db = client["hospital"]
+db1 = client.nurse_db
 patients_collection = db["patients"]
 nurses_collection = db["nurses"]
-
+twilio_client = TwilioClient(os.getenv("account_sid"), os.getenv("auth_token"))
 
 class NurseBase(BaseModel):
     nurse_name: str
@@ -308,18 +309,18 @@ async def calculate_titration_rate(body: TitrationRateInput = Body(...)):
 
 @app.post("/signup/")
 async def create_nurse(background_tasks: BackgroundTasks, nurse: NurseBase):
-    if db.nurses.find_one({"nurseID": nurse.nurseID}):
+    if db1.nurses.find_one({"nurseID": nurse.nurseID}):
         raise HTTPException(status_code=400, detail="NurseID already registered")
     
-    db.nurses.insert_one(nurse.dict())
-    nurse_data1 = db.nurses.find_one({"nurseID": nurse.nurseID})
+    db1.nurses.insert_one(nurse.dict())
+    nurse_data1 = db1.nurses.find_one({"nurseID": nurse.nurseID})
     background_tasks.add_task(send_sms, nurse.phone)
     return {"message": "Nurse created successfully"}
 
 
 @app.post("/login/")
 async def login_nurse(background_tasks: BackgroundTasks, nurse: NurseLogin):
-    nurse_data = db.nurses.find_one({"nurseID": nurse.nurseID, "password": nurse.password})
+    nurse_data = db1.nurses.find_one({"nurseID": nurse.nurseID, "password": nurse.password})
     if nurse_data:
         background_tasks.add_task(send_sms, nurse.phone)
         return {"message": "Login successful"}
