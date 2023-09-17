@@ -7,18 +7,12 @@ import SelectPatientChild from '../components/SelectPatientChild';
 import { API_URI } from '../config';
 
 
-// const patients = [
-//   { firstName: 'John', lastName: 'Smith', dob: '07/25/1963', room: '14B', id: '0184329234' },
-//   { firstName: 'Emily', lastName: 'Williams', dob: '11/09/1971', room: '2A', id: '203829489' },
-//   { firstName: 'Donald', lastName: 'Ezwick', dob: '02/17/1969', room: '5A', id: '923084302' },
-// ]
 const StartDrip = ({ navigation }) => {
   let [patients, setPatients] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       const resp = await fetch(`${API_URI}/get-all-patient-data/1`);
-      console.log(API_URI);
       return resp.json();
     };
 

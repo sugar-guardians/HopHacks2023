@@ -65,16 +65,19 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function ActionOptionsChild() {
+export default function ActionOptionsChild({
+  id, firstName, lastName, bday, room, navigation
+}) {
   return (
     <View style={styles.container}>
       <View style={styles.first}>
         <PatientCardAction
-          firstName="John"
-          lastName="Smith"
-          id="0184329234"
-          dob="07/25/1963"
-          room="14B"
+          firstName={firstName}
+          lastName={lastName}
+          id={id}
+          dob={bday}
+          room={room}
+          navigation={navigation}
         />
       </View>
       <View style={styles.buttonContainer}>
@@ -87,7 +90,14 @@ export default function ActionOptionsChild() {
       </View>
       <View style={styles.third}>
         <Text style={styles.text}>Your next BG is due at 14:40.</Text>
-        <BGInput id="0184329234" />
+        <BGInput
+          id={id}
+          navigation={navigation}
+          firstName={firstName}
+          lastName={lastName}
+          dob={bday}
+          room={room}
+        />
       </View>
     </View>
   );

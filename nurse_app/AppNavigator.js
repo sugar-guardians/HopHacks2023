@@ -22,8 +22,8 @@ function AppNavigator() {
       <Stack.Screen name="IntroVideo" component={IntroVideoScreen} /> */}
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="StartDrip" component={StartDrip} />
-      {/* <Stack.Screen name="Titrate" component={Titrate} /> */}
-      {/* <Stack.Screen name="Instructions" component={Instructions} /> */}
+      <Stack.Screen name="Titrate" component={Titrate} />
+      <Stack.Screen name="Instructions" component={Instructions} />
     </Stack.Navigator>
   );
 }

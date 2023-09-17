@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export default function SelectPatientChild({ patients }) {
+export default function SelectPatientChild({ patients, navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.first}>
@@ -34,7 +34,7 @@ export default function SelectPatientChild({ patients }) {
       </View>
       <View style={styles.second}>
         {patients.map(({
-          patient_name: firstName, patient_name: lastName, patient_id: id, room_no: room, date_of_birth: dob
+          first_name: firstName, last_name: lastName, patient_id: id, room_no: room, date_of_birth: dob
         }) => (
           <PatientCard
             key={id}
@@ -43,6 +43,7 @@ export default function SelectPatientChild({ patients }) {
             id={id}
             room={room}
             dob={dob}
+            navigation={navigation}
           />
         ))}
       </View>

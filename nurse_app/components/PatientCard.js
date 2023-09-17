@@ -50,9 +50,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function PatientCard({ firstName, lastName, id, room, dob }) {
-  return (
+export default function PatientCard({ firstName, lastName, id, room, dob, navigation }) {
+  const bday = format(new Date(dob), 'M/d/yyyy');
 
+  return (
     <View style={styles.container}>
        {/* <Image style={styles.avatarWrapper} source={require('../a2.png')}/> */}
       <View style={styles.avatarWrapper}>
@@ -60,11 +61,14 @@ export default function PatientCard({ firstName, lastName, id, room, dob }) {
       </View>
       <View style={styles.textWrapper}>
         <Text style={styles.text}>{`${lastName}, ${firstName}`}</Text>
-        <Text style={styles.text}>{`DOB: ${format(new Date(dob), 'M/d/yyyy')}`}</Text>
+        <Text style={styles.text}>{`DOB: ${bday}`}</Text>
         <Text style={styles.text}>{`Room: ${room}`}</Text>
       </View>
       <View style={styles.btnWrapper}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('Titrate', { id, firstName, lastName, bday, room })}
+        >
           <Text style={styles.buttonText}>Select</Text>
         </TouchableOpacity>
       </View>

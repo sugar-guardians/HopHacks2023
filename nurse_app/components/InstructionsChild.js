@@ -36,30 +36,33 @@ const styles = StyleSheet.create({
   }
 });
 
-const newBG = 479
 const dateTime = "9/16/2023 @ 17:40"
-const newRate = 255
 
-export default function InstructionsChild() {
+export default function InstructionsChild({
+  navigate, rate, prevRate, currBg, prevBg, d50w, action,
+  id, firstName, lastName, room, dob,
+}) {
   return (
     <View style={styles.container}>
       <View style={styles.first}>
         <PatientCardAction
-          firstName="John"
-          lastName="Smith"
-          id="0184329234"
-          dob="07/25/1963"
-          room="14B"
+          firstName={firstName}
+          lastName={lastName}
+          id={id}
+          dob={dob}
+          room={room}
         />
       </View>
       <View style={styles.second}>
-        <Text style={styles.text1}>BG value of <Text style={styles.emphasis}>{newBG}</Text> recorded for {dateTime}.</Text>
-        <Text style={styles.text1}>Your new titration rate is: <Text style={styles.emphasis}>{newRate}</Text> mL/hr.</Text>
+        <Text style={styles.text1}>BG value of <Text style={styles.emphasis}>{currBg}</Text> recorded for {dateTime}.</Text>
+        <Text style={styles.text1}>Your new titration rate is: <Text style={styles.emphasis}>{rate}</Text> mL/hr.</Text>
       </View>
-      <View style={styles.third}>
-        <Text style={styles.text2}>-1H BG: 376</Text>
-        <Text style={styles.text2}>-1H Titration rate: 289 mL/hr</Text>
-      </View>
+      {prevBg && prevRate && (
+        <View style={styles.third}>
+          <Text style={styles.text2}>-1H BG: {prevBg}</Text>
+          <Text style={styles.text2}>-1H Titration rate: {prevRate} mL/hr</Text>
+        </View>
+      )}
     </View>
   );
 }
