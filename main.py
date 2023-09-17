@@ -188,7 +188,8 @@ async def get_all_patient_data(nurse_id: int = Path(...)):
         # Add the patient data to the list.
         patient_data.append({
             "patient_id": patient_id,
-            "patient_name": patient_document["name"],
+            "first_name": patient_document["first_name"],
+            "last_name": patient_document["last_name"],
             "date_of_birth": patient_document["date_of_birth"],
             "room_no": patient_document["room_no"],
             "hours_since_last_meal": patient_document["hours_since_last_meal"]
