@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Text, Button, TouchableOpacity, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { View, Text, Button, TouchableOpacity, Image, StyleSheet } from 'react-native';
+// import Icon from 'react-native-vector-icons/FontAwesome';
 
 const styles = StyleSheet.create({
   smallContainer: {
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     paddingRight: 10,
   },
   avatarWrapper: {
-    flex: 0.25,
+    flex: 0.3,
     display: 'flex',
     alignItems: 'center',
   },
@@ -32,7 +32,8 @@ export default function PatientCard({ firstName, lastName, id, room, dob }) {
   return (
     <View style={styles.smallContainer}>
       <View style={styles.avatarWrapper}>
-        <Icon name="user-circle" size={80} color="#323134" />
+        <Image source={require('../assets/a1.png')} style={{ width: 120, height: 120 }} />
+        {/* <Icon name="user-circle" size={80} color="#323134" /> */}
       </View>
       <View style={styles.textWrapper}>
         <Text style={styles.text}>{`${lastName}, ${firstName}`}</Text>

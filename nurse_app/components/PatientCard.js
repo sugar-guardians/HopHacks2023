@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, Button, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import { format } from 'date-fns';
 
 const styles = StyleSheet.create({
