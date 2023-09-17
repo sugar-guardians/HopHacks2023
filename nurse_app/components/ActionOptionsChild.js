@@ -79,10 +79,10 @@ export default function ActionOptionsChild() {
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={[styles.button, styles.patientEating]}>
-          <Text style={styles.buttonText1} numberOfLines={2}>Patient Eating</Text>
+          <Text style={styles.buttonText1}>Patient Eating</Text>
         </TouchableOpacity>
         <View style={[styles.button, styles.discontinueDrip]}>
-          <Text style={styles.buttonText2} numberOfLines={2}>Discontinue Drip</Text>
+          <Text style={styles.buttonText2}>Discontinue Drip</Text>
         </View>
       </View>
       <View style={styles.third}>
