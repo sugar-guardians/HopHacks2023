@@ -138,87 +138,87 @@ async def hello_world():
     return {"message": "Hello, world!"}
 
 
-@app.post("/patient-data-input")
-async def patient_data_input(patient_data_input: PatientDataSchema = Body(...)):
-    """Stores patient data in MongoDB."""
+# @app.post("/patient-data-input")
+# async def patient_data_input(patient_data_input: PatientDataSchema = Body(...)):
+#     """Stores patient data in MongoDB."""
 
-    # Validate the patient data input.
-    if patient_data_input.patient_name is None or patient_data_input.patient_name == "":
-        raise HTTPException(status_code=400, detail="Patient name is required.")
-    if patient_data_input.patient_id is None or patient_data_input.patient_id == 0:
-        raise HTTPException(status_code=400, detail="Patient ID is required.")
-    if patient_data_input.room_number is None or patient_data_input.room_number == 0:
-        raise HTTPException(status_code=400, detail="Room number is required.")
-    if patient_data_input.date_of_birth is None or patient_data_input.date_of_birth == "":
-        raise HTTPException(status_code=400, detail="Date of birth is required.")
+#     # Validate the patient data input.
+#     if patient_data_input.patient_name is None or patient_data_input.patient_name == "":
+#         raise HTTPException(status_code=400, detail="Patient name is required.")
+#     if patient_data_input.patient_id is None or patient_data_input.patient_id == 0:
+#         raise HTTPException(status_code=400, detail="Patient ID is required.")
+#     if patient_data_input.room_number is None or patient_data_input.room_number == 0:
+#         raise HTTPException(status_code=400, detail="Room number is required.")
+#     if patient_data_input.date_of_birth is None or patient_data_input.date_of_birth == "":
+#         raise HTTPException(status_code=400, detail="Date of birth is required.")
 
-    # Insert the patient data into MongoDB.
-    patients_collection.insert_one(patient_data_input.dict())
+#     # Insert the patient data into MongoDB.
+#     patients_collection.insert_one(patient_data_input.dict())
 
-    # Return a success response.
-    return {"message": "Patient data stored successfully.", "patient_data": patient_data_input.dict()}
+#     # Return a success response.
+#     return {"message": "Patient data stored successfully.", "patient_data": patient_data_input.dict()}
 
 
-@app.get("/nurse-patient-data/{nurse_id}")
-async def nurse_patient_data(nurse_id: int = Path(...)):
-    """Retrieves the currrent patient data for a given nurse."""
+# @app.get("/nurse-patient-data/{nurse_id}")
+# async def nurse_patient_data(nurse_id: int = Path(...)):
+#     """Retrieves the currrent patient data for a given nurse."""
 
-    # Validate the nurse ID.
-    if not isinstance(nurse_id, int):
-        raise HTTPException(status_code=400, detail="Nurse ID must be an integer.")
+#     # Validate the nurse ID.
+#     if not isinstance(nurse_id, int):
+#         raise HTTPException(status_code=400, detail="Nurse ID must be an integer.")
     
-    # Get the nurse document from the nurses collection.
-    nurse = nurses_collection.find_one({"nurse_id": nurse_id})
+#     # Get the nurse document from the nurses collection.
+#     # nurse = nurses_collection.find_one({"nurse_id": nurse_id})
 
-    # If the nurse document does not exist, raise an exception.
-    if nurse is None:
-        raise HTTPException(status_code=404, detail="Nurse not found.")
+#     # If the nurse document does not exist, raise an exception.
+#     if nurse is None:
+#         raise HTTPException(status_code=404, detail="Nurse not found.")
     
-    if not nurse.drip_started:
-        return ({"message", "No patient with active drip, click the button to start a drip.\n"})
+#     if not nurse.drip_started:
+#         return ({"message", "No patient with active drip, click the button to start a drip.\n"})
     
-    return {"message": nurse.patient_document}
+#     return {"message": nurse.patient_document}
 
 
-@app.get("/get-all-patient-data/{nurse_id}")
-async def get_all_patient_data(nurse_id: int = Path(...)):
-    """Retrieves all patient data for a given nurse."""
+# @app.get("/get-all-patient-data/{nurse_id}")
+# async def get_all_patient_data(nurse_id: int = Path(...)):
+#     """Retrieves all patient data for a given nurse."""
 
-    # Validate the nurse ID.
-    if not isinstance(nurse_id, int):
-        raise HTTPException(status_code=400, detail="Nurse ID must be an integer.")
+#     # Validate the nurse ID.
+#     if not isinstance(nurse_id, int):
+#         raise HTTPException(status_code=400, detail="Nurse ID must be an integer.")
 
-    # Get the nurse document from the nurses collection.
-    nurse = nurses_collection.find_one({"nurse_id": nurse_id})
+#     # Get the nurse document from the nurses collection.
+#     # nurse = nurses_collection.find_one({"nurse_id": nurse_id})
 
-    # If the nurse document does not exist, raise an exception.
-    if nurse is None:
-        raise HTTPException(status_code=404, detail="Nurse not found.")
+#     # If the nurse document does not exist, raise an exception.
+#     if nurse is None:
+#         raise HTTPException(status_code=404, detail="Nurse not found.")
 
-    # Get the patient IDs from the nurse document.
-    patient_ids = nurse["patient_ids"]
+#     # Get the patient IDs from the nurse document.
+#     # patient_ids = nurse["patient_ids"]
 
-    # Get the patient data from the patients collection.
-    patient_data = []
-    for patient_id in patient_ids:
-        patient = patients_collection.find_one({"patient_id": patient_id})
+#     # Get the patient data from the patients collection.
+#     patient_data = []
+#     for patient_id in patient_ids:
+#         patient = patients_collection.find_one({"patient_id": patient_id})
 
-        # If the patient document does not exist, raise an exception.
-        if patient is None:
-            raise HTTPException(status_code=404, detail="Patient not found.")
+#         # If the patient document does not exist, raise an exception.
+#         if patient is None:
+#             raise HTTPException(status_code=404, detail="Patient not found.")
 
-        # Add the patient data to the list.
-        patient_data.append({
-            "patient_id": patient_id,
-            "first_name": patient["first_name"],
-            "last_name": patient["last_name"],
-            "date_of_birth": patient["date_of_birth"],
-            "room_no": patient["room_no"],
-            "hours_since_last_meal": patient["hours_since_last_meal"]
-        })
+#         # Add the patient data to the list.
+#         patient_data.append({
+#             "patient_id": patient_id,
+#             "first_name": patient["first_name"],
+#             "last_name": patient["last_name"],
+#             "date_of_birth": patient["date_of_birth"],
+#             "room_no": patient["room_no"],
+#             "hours_since_last_meal": patient["hours_since_last_meal"]
+#         })
 
-    # Return the patient data.
-    return patient_data
+#     # Return the patient data.
+#     return patient_data
 
 
 def BG_to_D50W_dosage(blood_glucose_measurement):
@@ -322,7 +322,9 @@ async def create_nurse(background_tasks: BackgroundTasks, nurse: NurseBase):
 async def login_nurse(background_tasks: BackgroundTasks, nurse: NurseLogin):
     nurse_data = db1.nurses.find_one({"nurseID": nurse.nurseID, "password": nurse.password})
     if nurse_data:
-        background_tasks.add_task(send_sms, nurse.phone)
+        # nurse_data1 = db1.nurses.find_one("phone")
+        # print(nurse_data1);
+        # background_tasks.add_task(send_sms, nurse.phone)
         return {"message": "Login successful"}
 
     raise HTTPException(status_code=400, detail="Invalid credentials")

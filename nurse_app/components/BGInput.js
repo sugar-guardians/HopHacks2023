@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { SafeAreaView, View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
-import { API_URI } from '../config';
+// import { API_URI } from '../config';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -53,7 +53,7 @@ export default function BGInput({
 
   const submitBg = async () => {
     try {
-      const resp = await fetch(`${API_URI}/titration-rate`, {
+      const resp = await fetch('http://localhost:8000/titration-rate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
