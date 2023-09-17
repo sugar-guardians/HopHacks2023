@@ -12,14 +12,20 @@ const styles = StyleSheet.create({
   },
   second: {
     display: 'flex',
-    // flex: 0.4,
     justifyContent: 'flex-start',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     marginTop: 50,
     paddingLeft: 20,
     paddingRight: 20,
+    marginBottom: 40,
   },
   third: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+  fourth: {
     paddingLeft: 40,
     paddingRight: 40,
   },
@@ -33,6 +39,19 @@ const styles = StyleSheet.create({
   },
   emphasis: {
     color: 'red',
+  },
+  emphasisWrapper: {
+    backgroundColor: '#5116FB',
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingBottom: 10,
+    paddingTop: 10,
+    borderRadius: 30,
+  },
+  strongEmphasis: {
+    fontSize: 48,
+    fontWeight: 'bold',
+    color: 'white',
   }
 });
 
@@ -54,11 +73,17 @@ export default function InstructionsChild({
         />
       </View>
       <View style={styles.second}>
-        <Text style={styles.text1}>BG value of <Text style={styles.emphasis}>{currBg}</Text> recorded for {dateTime}.</Text>
-        <Text style={styles.text1}>Your new titration rate is: <Text style={styles.emphasis}>{rate}</Text> mL/hr.</Text>
+        <Text style={styles.text1}>Your new titration rate (mL/hr) is&nbsp;</Text>
+        <View style={styles.emphasisWrapper}>
+          <Text style={styles.strongEmphasis}>{rate}</Text>
+        </View>
+      </View>
+      <View style={styles.third}>
+        <Text style={styles.text1}>BG value of&nbsp;
+        <Text style={styles.emphasis}>{currBg}</Text> recorded for {dateTime}.</Text>
       </View>
       {prevBg && prevRate && (
-        <View style={styles.third}>
+        <View style={styles.fourth}>
           <Text style={styles.text2}>-1H BG: {prevBg}</Text>
           <Text style={styles.text2}>-1H Titration rate: {prevRate} mL/hr</Text>
         </View>
