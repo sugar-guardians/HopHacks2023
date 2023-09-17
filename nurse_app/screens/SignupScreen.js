@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Text, TextInput, TouchableOpacity, StyleSheet, Image, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useFonts, Montserrat_700Bold } from '@expo-google-fonts/montserrat';
+import { API_URI } from '../config';
 
 
 function SignupScreen({ navigation }) {
@@ -12,7 +13,7 @@ function SignupScreen({ navigation }) {
   const [password, setPassword] = useState('');
 
   const signup = () => {
-    fetch('http://localhost:8000/signup/', {
+    fetch(`${API_URI}/signup/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -4,6 +4,7 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useFonts, Montserrat_700Bold } from '@expo-google-fonts/montserrat';
+import { API_URI } from '../config';
 
 
 function LoginScreen({ navigation }) {
@@ -25,7 +26,7 @@ function LoginScreen({ navigation }) {
   }, [fadeAnim]);
 
   const login = () => {
-    fetch('http://localhost:8000/login/', {
+    fetch(`${API_URI}/login/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
