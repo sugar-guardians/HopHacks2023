@@ -7,22 +7,24 @@ from bson import ObjectId
 from fastapi import BackgroundTasks
 from twilio.rest import Client as TwilioClient
 
+load_dotenv()   # load environment variables from .env
+
 twilio_client = TwilioClient(os.getenv("account_sid"), os.getenv("auth_token"))
 def send_sms(phone_number):
     message = twilio_client.messages.create(
-    from_='+18555142486',
-    body='Reminder!!!\nTime to check BG and Titrate.',
-    to=phone_number
+        from_='+18555142486',
+        body='Reminder!!!\nTime to check BG and Titrate.',
+        to=phone_number
     )
     print(message.sid)
-        # time.sleep(12)  # Wait for 12 seconds before sending the next SMS
+    # time.sleep(12)  # Wait for 12 seconds before sending the next SMS
 
 def nurse_to_json(nurse):
     nurse['id'] = str(nurse['_id'])
     del nurse['_id']
     return nurse
 
-load_dotenv()   # load environment variables from .env
+
 app = FastAPI()
 
 client = MongoClient(os.getenv("MONGODB_URI"), tlsAllowInvalidCertificates=True)

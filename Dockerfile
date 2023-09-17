@@ -8,6 +8,7 @@ WORKDIR /app
 COPY main.py /app
 COPY requirements.txt /app
 COPY backend /app
+COPY .env /app
 
 # Install any needed packages specified in requirements.txt
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
