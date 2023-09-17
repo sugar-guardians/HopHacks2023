@@ -34,16 +34,9 @@ patients_collection = db["patients"]
 nurses_collection = db["nurses"]
 twilio_client = TwilioClient(os.getenv("account_sid"), os.getenv("auth_token"))
 
-class NurseBase(BaseModel):
-    nurse_name: str
-    nurseID: str
-    email: str
-    password: str
-    phone: str
 
-class NurseLogin(BaseModel):
-    nurseID: str
-    password: str
+
+
 
 class NurseDataInput(BaseModel):
     nurse_id: int
@@ -307,7 +300,15 @@ async def calculate_titration_rate(body: TitrationRateInput = Body(...)):
     
 
 
-@app.post("/signup/")
+class NurseBase(BaseModel):
+    nurse_id: int
+    nurse_name: str
+    email: str
+    password: str
+    phone: int
+
+
+@app.post("/signup")
 async def create_nurse(background_tasks: BackgroundTasks, nurse: NurseBase):
     if db1.nurses.find_one({"nurseID": nurse.nurseID}):
         raise HTTPException(status_code=400, detail="NurseID already registered")
@@ -315,7 +316,7 @@ async def create_nurse(background_tasks: BackgroundTasks, nurse: NurseBase):
     db1.nurses.insert_one(nurse.dict())
     nurse_data1 = db1.nurses.find_one({"nurseID": nurse.nurseID})
     background_tasks.add_task(send_sms, nurse.phone)
-    return {"message": "Nurse created successfully"}
+    return {"nurse_data": nurse.dict(), "message": "Nurse created successfully"}
 
 
 @app.post("/login/")

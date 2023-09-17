@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { View, Text, Image, StyleSheet } from 'react-native';
+// import Icon from 'react-native-vector-icons/FontAwesome';
 
 const styles = StyleSheet.create({
   container: {
@@ -36,7 +36,7 @@ export default function Footer() {
         <Text style={styles.text}>Registered Nurse</Text>
       </View>
       <View style={styles.avatarWrapper}>
-        <Icon name="user-circle" size={75} color="#323134" />
+        <Image source={require('../assets/nurse.png')} style={{ width: 100, height: 100 }} />
       </View>
     </View>
   );
