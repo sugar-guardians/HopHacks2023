@@ -221,7 +221,7 @@ async def get_all_patient_data(nurse_id: int = Path(...)):
 
 
 def BG_to_D50W_dosage(blood_glucose_measurement):
-    # input BG measurement, in order to get D50W sugar (ml)
+    """Input BG measurement, in order to get D50W sugar (ml)"""
     if 80 <= blood_glucose_measurement <= 89:
         return 0
     elif 70 <= blood_glucose_measurement <= 79:
