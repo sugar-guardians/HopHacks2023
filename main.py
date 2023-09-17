@@ -179,20 +179,20 @@ async def get_all_patient_data(nurse_id: int = Path(...)):
     # Get the patient data from the patients collection.
     patient_data = []
     for patient_id in patient_ids:
-        patient_document = patients_collection.find_one({"patient_id": patient_id})
+        patient = patients_collection.find_one({"patient_id": patient_id})
 
         # If the patient document does not exist, raise an exception.
-        if patient_document is None:
+        if patient is None:
             raise HTTPException(status_code=404, detail="Patient not found.")
 
         # Add the patient data to the list.
         patient_data.append({
             "patient_id": patient_id,
-            "first_name": patient_document["first_name"],
-            "last_name": patient_document["last_name"],
-            "date_of_birth": patient_document["date_of_birth"],
-            "room_no": patient_document["room_no"],
-            "hours_since_last_meal": patient_document["hours_since_last_meal"]
+            "first_name": patient["first_name"],
+            "last_name": patient["last_name"],
+            "date_of_birth": patient["date_of_birth"],
+            "room_no": patient["room_no"],
+            "hours_since_last_meal": patient["hours_since_last_meal"]
         })
 
     # Return the patient data.
@@ -286,16 +286,17 @@ async def calculate_titration_rate(body: TitrationRateInput = Body(...)):
 
 
 
-# @app.post("/signup/")
-# async def create_nurse(nurse: NurseBase):
-#     if db.nurses.find_one({"nurseID": nurse.nurseID}):
-#         raise HTTPException(status_code=400, detail="NurseID already registered")
-#     db.nurses.insert_one(nurse.dict())
-#     return {"message": "Nurse created successfully"}
+@app.post("/signup")
+async def create_nurse(nurse: NurseBase):
+    if db.nurses.find_one({"nurseID": nurse.nurseID}):
+        raise HTTPException(status_code=400, detail="NurseID already registered")
+    
+    db.nurses.insert_one(nurse.dict())
+    return {"message": "Nurse created successfully"}
 
-# @app.post("/login/")
-# async def login_nurse(nurse: NurseLogin):
-#     nurse_data = db.nurses.find_one({"nurseID": nurse.nurseID, "password": nurse.password})
-#     if nurse_data:
-#         return {"message": "Login successful"}
-#     raise HTTPException(status_code=400, detail="Invalid credentials")
+@app.post("/login")
+async def login_nurse(nurse: NurseLogin):
+    nurse_data = db.nurses.find_one({"nurseID": nurse.nurseID, "password": nurse.password})
+    if nurse_data:
+        return {"message": "Login successful"}
+    raise HTTPException(status_code=400, detail="Invalid credentials")
