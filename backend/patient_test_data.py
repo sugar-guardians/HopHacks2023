@@ -11,15 +11,15 @@ nurses_collection = database["nurses"]
 
 # Sample patient data
 sample_patients = [
-    {"name": "Tom", "date_of_birth": "1990-01-15", "room_no": 101, "hours_since_last_meal": 4},
-    {"name": "Jonathan", "date_of_birth": "1985-05-20", "room_no": 102, "hours_since_last_meal": 6},
-    {"name": "Spencer", "date_of_birth": "1995-09-10", "room_no": 103, "hours_since_last_meal": 3},
-    {"name": "Nick", "date_of_birth": "1980-03-25", "room_no": 104, "hours_since_last_meal": 5},
-    {"name": "Julia", "date_of_birth": "1998-07-30", "room_no": 105, "hours_since_last_meal": 2},
+    {"first_name": "Tom", "last_name": "Jerry", "date_of_birth": "1990-01-15", "room_no": 101, "hours_since_last_meal": 4},
+    {"first_name": "Jonathan", "last_name": "Chen", "date_of_birth": "1985-05-20", "room_no": 102, "hours_since_last_meal": 6},
+    {"first_name": "Spencer", "last_name": "Hayward", "date_of_birth": "1995-09-10", "room_no": 103, "hours_since_last_meal": 3},
+    {"first_name": "Nick", "last_name": "Fury", "date_of_birth": "1980-03-25", "room_no": 104, "hours_since_last_meal": 5},
+    {"first_name": "Julia", "last_name": "Holoman", "date_of_birth": "1998-07-30", "room_no": 105, "hours_since_last_meal": 2},
 ]
 
 sample_nurses = [
-    {"nurse_id": 1, "first_name": "Binh", "last_name": "Nguyen", "email": "bnguyen@gmail.com", "password": "hophacks", "patient_ids": []},
+    {"nurse_id": 1, "first_name": "Binh", "last_name": "Nguyen", "email": "bnguyen@gmail.com", "phone": "", "password": "hophacks", "patient_ids": []},
 ]
 
 # Function to add a patient to the database
