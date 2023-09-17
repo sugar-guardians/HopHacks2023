@@ -24,7 +24,7 @@ def add_patient(patient_data):
 # Add the sample patients to the database
 for patient in sample_patients:
     # Generate a unique ID for each patient (you can use ObjectId or any other method)
-    patient["patient_id"] = str(random.randint(1000, 9999))
+    patient["patient_id"] = random.randint(1000, 9999)
 
     patient["titration_state"] = None
     

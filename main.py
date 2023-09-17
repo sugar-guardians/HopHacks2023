@@ -109,20 +109,7 @@ def BG_range_to_titration_matrix_row(blood_glucose_measurement):
     elif blood_glucose_measurement < 60:
         return 0
 
-def D50W_table(blood_glucose_measurement):
-    # input: BG measurement
-    if 80 <= blood_glucose_measurement <= 89:
-        return 0
-    elif 70 <= blood_glucose_measurement <= 79:
-        return 10
-    elif 60 <= blood_glucose_measurement <= 69:
-        return 15
-    elif 50 <= blood_glucose_measurement <= 59:
-        return 20
-    elif 30 <= blood_glucose_measurement <= 49:
-        return 25
-    elif blood_glucose_measurement < 30:
-        return 30
+
 
 @app.get("/")
 async def hello_world():
@@ -210,41 +197,90 @@ async def patient_data(nurse_id: int = Path(...)):
     return patient_data
 
 
+def BG_to_D50W_dosage(blood_glucose_measurement):
+    # input BG measurement, in order to get D50W sugar (ml)
+    if 80 <= blood_glucose_measurement <= 89:
+        return 0
+    elif 70 <= blood_glucose_measurement <= 79:
+        return 10
+    elif 60 <= blood_glucose_measurement <= 69:
+        return 15
+    elif 50 <= blood_glucose_measurement <= 59:
+        return 20
+    elif 30 <= blood_glucose_measurement <= 49:
+        return 25
+    elif blood_glucose_measurement < 30:
+        return 30
+
 class TitrationRateInput(BaseModel):
     patient_id: int
     blood_glucose_measurement: int
 
 @app.post("/titration-rate")
 # patient_id, blood_glucose_measurement
-async def calculate_titration_rate(input_data: TitrationRateInput = Body(...)):
-    patient_id, blood_glucose_measurement = input_data
+async def calculate_titration_rate(body: TitrationRateInput = Body(...)):
+    # Given BG measurement, return the titration rate (ml/hr)
+    patient_id = body.patient_id
+    blood_glucose_measurement = body.blood_glucose_measurement
 
     # Define constants for BG (blood glucose) ranges
     LOW_BG_THRESHOLD = 90
     HIGH_BG_THRESHOLD = 140
-
-    # Given BG measurement, return the titration rate (ml/hr)
-    patient = patients_collection.find_one({"patient_id": patient_id})
     
-    if patient.titration_state:
-        prev_BG_range, col = patient.titration_state
+    patient = patients_collection.find_one({"$or": [{"patient_id": str(patient_id)}, {"patient_id": int(patient_id)}]})
+    if not patient:
+         return {"status_code": 404, "message": "Patient not found"}
+    
+    # return {list(patient.keys())[6]}
+    # return {patient['titration_state']}
+    #######return {patient['titration_state'] == None}
+    # return {len(patient['titration_state']) == 0}
+    # return {type(patient['titration_state'])}
+    
+    if patient['titration_state'] != None:
+        titration_history = patient['titration_state']
+        prev_BG_range, col = titration_history[-1]
         BG_range = BG_range_to_titration_matrix_row(blood_glucose_measurement)
-        
+        DW50_dosage = 0
+
+        prev_col = col
         # Adjust the column based on BG range
         if blood_glucose_measurement < LOW_BG_THRESHOLD:
-            col -= 1
+            if col >= 1:
+                col -= 1
+            DW50_dosage = BG_to_D50W_dosage(blood_glucose_measurement)
         elif blood_glucose_measurement > HIGH_BG_THRESHOLD and BG_range >= prev_BG_range:
             col += 1
+
+        # patient['titration_state'] = TITRATION_MATRIX[BG_range][col]
+        # updated_titration_history = patient['titration_state'].append((BG_range, col))
+        titration_history.append((BG_range, col))
+        patients_collection.update_one({"patient_id": int(patient_id)}, {"$set": {"titration_state": titration_history}})
         
-        return {"titration_rate": TITRATION_MATRIX[BG_range][col]}
+        return {
+            "titration_rate": TITRATION_MATRIX[BG_range][col],
+            "prev_titration_rate": TITRATION_MATRIX[prev_BG_range][prev_col],
+            "current_BG": blood_glucose_measurement,
+            # "prev_BG": 
+            "DW50_dosage": DW50_dosage
+        }
     
     else:
+        # New inpatient
         BG_range = BG_range_to_titration_matrix_row(blood_glucose_measurement)
-        patient.titration_state = (BG_range, 1)
+        patient['titration_state'] = (BG_range, 1)
+        patients_collection.update_one({"patient_id": int(patient_id)}, {"$set": {"titration_state": [(BG_range, 1)]}})
 
         # Always start in column 2
-        return {"titration_rate": TITRATION_MATRIX[BG_range][1]}
+        return {
+            "titration_rate": TITRATION_MATRIX[BG_range][1],
+            "prev_titration_rate": None,
+            "current_BG": blood_glucose_measurement,
+            "prev_BG": None,
+            "DW50_dosage": 0
+        }
     
+
 
 
 # @app.post("/signup/")
