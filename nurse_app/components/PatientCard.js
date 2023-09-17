@@ -50,17 +50,18 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function PatientCard({ firstName, lastName, id, room, dob, navigation }) {
+export default function PatientCard({
+  firstName, lastName, id, room, dob, navigation, uri
+}) {
   const bday = format(new Date(dob), 'M/d/yyyy');
 
   return (
     <View style={styles.container}>
-       {/* <Image style={styles.avatarWrapper} source={require('../a2.png')}/> */}
       <View style={styles.avatarWrapper}>
-        <Icon name="user-circle" size={80} color="#323134" />
+        <Image style={{ width: 100, height: 100 }} source={require('../assets/a1.png')} />
       </View>
       <View style={styles.textWrapper}>
-        <Text style={styles.text}>{`${lastName}, ${firstName}`}</Text>
+        <Text style={{...styles.text, fontWeight: 'bold' }}>{`${lastName}, ${firstName}`}</Text>
         <Text style={styles.text}>{`DOB: ${bday}`}</Text>
         <Text style={styles.text}>{`Room: ${room}`}</Text>
       </View>
