@@ -11,7 +11,7 @@ function HomeScreen({ route, navigation }) {
   return (
     <View style={styles.container}>
       <Header />
-      <Main child={<EmptyPtList />} />
+      <Main child={<EmptyPtList navigation={navigation} />} />
       <Footer />
     </View>
   );

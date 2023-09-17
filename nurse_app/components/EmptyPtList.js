@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export default function EmptyPtList(){
+export default function EmptyPtList({ navigation }){
   let [fontsLoaded, fontError] = useFonts({ Raleway_700Bold });
 
   if (!fontsLoaded && !fontError) {
@@ -46,7 +46,7 @@ export default function EmptyPtList(){
   return (
     <View style={styles.wrapper}>
       <Text style={styles.welcomeMsg}>Welcome, Binh! You currently don't have any patients on an insulin drip right now.</Text>
-      <TouchableOpacity style={[styles.button]}>
+      <TouchableOpacity style={[styles.button]} onPress={() => navigation.navigate('StartDrip')}>
         <Text style={styles.buttonText}>Start a gtt!</Text>
       </TouchableOpacity>
     </View>

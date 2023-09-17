@@ -33,7 +33,9 @@ export default function SelectPatientChild({ patients }) {
         <Text style={styles.text}>Select a patient to start the insulin drip:</Text>
       </View>
       <View style={styles.second}>
-        {patients.map(({firstName, lastName, id, room, dob }) => (
+        {patients.map(({
+          patient_name: firstName, patient_name: lastName, patient_id: id, room_no: room, date_of_birth: dob
+        }) => (
           <PatientCard
             key={id}
             firstName={firstName}

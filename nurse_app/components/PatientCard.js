@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Button, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { format } from 'date-fns';
 
 const styles = StyleSheet.create({
   container: {
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
 
 export default function PatientCard({ firstName, lastName, id, room, dob }) {
   return (
-    
+
     <View style={styles.container}>
        {/* <Image style={styles.avatarWrapper} source={require('../a2.png')}/> */}
       <View style={styles.avatarWrapper}>
@@ -59,12 +60,9 @@ export default function PatientCard({ firstName, lastName, id, room, dob }) {
       </View>
       <View style={styles.textWrapper}>
         <Text style={styles.text}>{`${lastName}, ${firstName}`}</Text>
-        <Text style={styles.text}>{`DOB: ${dob}`}</Text>
+        <Text style={styles.text}>{`DOB: ${format(new Date(dob), 'M/d/yyyy')}`}</Text>
         <Text style={styles.text}>{`Room: ${room}`}</Text>
       </View>
-      {/* <View style={styles.btnWrapper}>
-        <Button title="Select" />
-      </View> */}
       <View style={styles.btnWrapper}>
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>Select</Text>
