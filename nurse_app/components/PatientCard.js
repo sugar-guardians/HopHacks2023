@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Button, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const styles = StyleSheet.create({
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#5116FB',
     borderRadius: 30,
     paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingHorizontal: 19,
     elevation: 3, // For Android shadow
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -51,7 +51,9 @@ const styles = StyleSheet.create({
 
 export default function PatientCard({ firstName, lastName, id, room, dob }) {
   return (
+    
     <View style={styles.container}>
+       {/* <Image style={styles.avatarWrapper} source={require('../a2.png')}/> */}
       <View style={styles.avatarWrapper}>
         <Icon name="user-circle" size={80} color="#323134" />
       </View>
