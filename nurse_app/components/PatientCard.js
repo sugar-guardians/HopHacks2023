@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: '#5116FB',
-    borderRadius: 30,
+    borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 19,
     elevation: 3, // For Android shadow

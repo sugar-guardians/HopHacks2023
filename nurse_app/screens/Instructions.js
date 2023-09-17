@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function Instructions({ route, navigate }) {
+export default function Instructions({ route, navigation }) {
   const {
     rate, prevRate, currBg, prevBg, d50w, action,
     id, firstName, lastName, room, dob
@@ -24,7 +24,7 @@ export default function Instructions({ route, navigate }) {
       <Main
         child={
           <InstructionsChild
-            navigate={navigate}
+            navigation={navigation}
             rate={rate}
             prevRate={prevRate}
             currBg={currBg}

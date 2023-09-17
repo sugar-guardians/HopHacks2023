@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     flex: 0.4,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    marginTop: 50,
+    marginTop: 20,
   },
   text: {
     fontSize: 18,
@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flex: 0.2,
     flexDirection: 'row',
-    // justifyContent: 'space-between',
     alignItems: 'flex-start',
     marginVertical: 20,
   },

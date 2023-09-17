@@ -6,7 +6,7 @@ import PatientCardAction from './PatientCardAction';
 const styles = StyleSheet.create({
   container: {
     display: "flex",
-    height: 600,
+    height: 800,
   },
   first: {
     flex: 0.35,
@@ -53,13 +53,30 @@ const styles = StyleSheet.create({
     fontSize: 48,
     fontWeight: 'bold',
     color: 'white',
+  },
+  buttonWrapper: {
+    paddingTop: 100,
+    display: 'flex',
+    alignItems: 'center',
+  },
+  buttonInnerWrapper: {
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingBottom: 10,
+    paddingTop: 10,
+    borderRadius: 5,
+    backgroundColor: '#323134',
+  },
+  button: {
+    fontSize: 20,
+    color: 'white',
   }
 });
 
 const dateTime = format(new Date(), 'M/d/yyyy @ HH:mm');
 
 export default function InstructionsChild({
-  navigate, rate, prevRate, currBg, prevBg, d50w, action,
+  navigation, rate, prevRate, currBg, prevBg, d50w, action,
   id, firstName, lastName, room, dob,
 }) {
   return (
@@ -89,6 +106,16 @@ export default function InstructionsChild({
           <Text style={styles.text2}>-1H Titration rate: {prevRate} mL/hr</Text>
         </View>
       )}
+      <View style={styles.buttonWrapper}>
+        <TouchableOpacity
+          style={styles.buttonInnerWrapper}
+          onPress={() => navigation.navigate("Titrate", {
+            id, firstName, lastName, bday: dob, room
+          })}
+        >
+          <Text style={styles.button}>Back</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }

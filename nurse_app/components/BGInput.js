@@ -82,7 +82,8 @@ export default function BGInput({
         <TextInput
           onChangeText={setBg}
           value={bg}
-          inputMode="numeric"
+          keyboardType="numeric"
+          // inputMode="numeric"
           style={styles.input}
           textAlign="center"
           placeholder="BG"
