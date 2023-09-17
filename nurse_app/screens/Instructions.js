@@ -12,11 +12,32 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function Instructions() {
+export default function Instructions({ route, navigation }) {
+  const {
+    rate, prevRate, currBg, prevBg, d50w, action,
+    id, firstName, lastName, room, dob
+  } = route.params;
+
   return (
     <View style={styles.container}>
       <Header />
-      <Main child={<InstructionsChild />} />
+      <Main
+        child={
+          <InstructionsChild
+            navigation={navigation}
+            rate={rate}
+            prevRate={prevRate}
+            currBg={currBg}
+            prevBg={prevBg}
+            d50w={d50w}
+            action={action}
+            id={id}
+            firstName={firstName}
+            lastName={lastName}
+            room={room}
+            dob={dob}
+          />}
+      />
       <Footer />
     </View>
   );

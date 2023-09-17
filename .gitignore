@@ -4,3 +4,4 @@ __pycache__/
 .expo
 nurse_app/ios
 node_modules
+.env

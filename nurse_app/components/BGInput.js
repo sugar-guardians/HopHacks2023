@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { SafeAreaView, View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { API_URI } from '../config';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -45,8 +46,35 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function BGInput({ id }) {
+export default function BGInput({
+  id, navigation, firstName, lastName, room, dob,
+}) {
   const [bg, setBg] = useState("");
+
+  const submitBg = async () => {
+    try {
+      const resp = await fetch(`${API_URI}/titration-rate`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          patient_id: Number(id),
+          blood_glucose_measurement: Number(bg),
+        })
+      });
+      const {
+        titration_rate: rate, prev_titration_rate: prevRate,
+        current_BG: currBg, prev_BG: prevBg, D50W_dosage: d50w, action
+      } = await resp.json();
+      navigation.navigate("Instructions", {
+        rate, prevRate, currBg, prevBg, d50w, action,
+        id, firstName, lastName, room, dob
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <SafeAreaView>
@@ -54,14 +82,15 @@ export default function BGInput({ id }) {
         <TextInput
           onChangeText={setBg}
           value={bg}
-          inputMode="numeric"
+          keyboardType="numeric"
+          // inputMode="numeric"
           style={styles.input}
           textAlign="center"
           placeholder="BG"
         />
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={submitBg}>
           <Text style={styles.buttonText}>Submit</Text>
         </TouchableOpacity>
       </View>

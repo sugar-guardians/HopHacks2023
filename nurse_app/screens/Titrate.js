@@ -12,11 +12,23 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function Titrate() {
+export default function Titrate({ navigation, route }) {
+  const { id, firstName, lastName, bday, room } = route.params;
   return (
     <View style={styles.container}>
       <Header />
-      <Main child={<ActionOptionsChild />} />
+      <Main
+        child={
+          <ActionOptionsChild
+            id={id}
+            firstName={firstName}
+            lastName={lastName}
+            bday={bday}
+            room={room}
+            navigation={navigation}
+          />
+        }
+      />
       <Footer />
     </View>
   );

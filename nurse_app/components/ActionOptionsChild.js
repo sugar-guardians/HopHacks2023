@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, Button, TouchableOpacity, StyleSheet } from 'react-native';
+import { format } from 'date-fns';
 import PatientCardAction from './PatientCardAction';
 import BGInput from './BGInput';
 
@@ -16,7 +17,7 @@ const styles = StyleSheet.create({
     flex: 0.4,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    marginTop: 50,
+    marginTop: 20,
   },
   text: {
     fontSize: 18,
@@ -26,7 +27,6 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flex: 0.2,
     flexDirection: 'row',
-    // justifyContent: 'space-between',
     alignItems: 'flex-start',
     marginVertical: 20,
   },
@@ -65,29 +65,42 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function ActionOptionsChild() {
+const dateObj = new Date();
+dateObj.setHours(dateObj.getHours() + 1);
+
+export default function ActionOptionsChild({
+  id, firstName, lastName, bday, room, navigation
+}) {
   return (
     <View style={styles.container}>
       <View style={styles.first}>
         <PatientCardAction
-          firstName="John"
-          lastName="Smith"
-          id="0184329234"
-          dob="07/25/1963"
-          room="14B"
+          firstName={firstName}
+          lastName={lastName}
+          id={id}
+          dob={bday}
+          room={room}
+          navigation={navigation}
         />
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={[styles.button, styles.patientEating]}>
-          <Text style={styles.buttonText1} numberOfLines={2}>Patient Eating</Text>
+          <Text style={styles.buttonText1}>Patient Eating</Text>
         </TouchableOpacity>
         <View style={[styles.button, styles.discontinueDrip]}>
-          <Text style={styles.buttonText2} numberOfLines={2}>Discontinue Drip</Text>
+          <Text style={styles.buttonText2}>Discontinue Drip</Text>
         </View>
       </View>
       <View style={styles.third}>
-        <Text style={styles.text}>Your next BG is due at 14:40.</Text>
-        <BGInput id="0184329234" />
+        <Text style={styles.text}>Your next BG is due at {format(dateObj, 'HH:mm')}</Text>
+        <BGInput
+          id={id}
+          navigation={navigation}
+          firstName={firstName}
+          lastName={lastName}
+          dob={bday}
+          room={room}
+        />
       </View>
     </View>
   );

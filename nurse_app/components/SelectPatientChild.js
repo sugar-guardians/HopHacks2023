@@ -28,8 +28,8 @@ const styles = StyleSheet.create({
   }
 });
 
-export default function SelectPatientChild({ patients }) {
-  // useEffect(() => {
+export default function SelectPatientChild({ patients, navigation }) {
+    // useEffect(() => {
   //   async function requestPermissions() {
   //     const { status } = await Notifications.requestPermissionsAsync();
   //     if (status !== 'granted') {
@@ -66,17 +66,19 @@ export default function SelectPatientChild({ patients }) {
   //       trigger: null,
   //     });
   //   }
-  
+
   //   sendTestNotification();
   // }, []);
-  
+
   return (
     <View style={styles.container}>
       <View style={styles.first}>
         <Text style={styles.text}>Select a patient to start the insulin drip:</Text>
       </View>
       <View style={styles.second}>
-        {patients.map(({firstName, lastName, id, room, dob }) => (
+        {patients.map(({
+          first_name: firstName, last_name: lastName, patient_id: id, room_no: room, date_of_birth: dob
+        }) => (
           <PatientCard
             key={id}
             firstName={firstName}
@@ -84,6 +86,7 @@ export default function SelectPatientChild({ patients }) {
             id={id}
             room={room}
             dob={dob}
+            navigation={navigation}
           />
         ))}
       </View>

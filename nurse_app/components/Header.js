@@ -1,36 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import { View, Text, StyleSheet } from 'react-native';
-import { useFonts, Raleway_700Bold } from '@expo-google-fonts/raleway';
+import { useFonts, Montserrat_700Bold } from '@expo-google-fonts/montserrat';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.15,
+    flex: 0.12,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
+    backgroundColor: '#323134',
+    width: '100%',
+    paddingBottom: 15,
   },
   text: {
-    fontSize: 24,
-    fontFamily: 'Raleway_700Bold',
-    color: '#5116FB',
+    fontSize: 32,
+    fontFamily: 'Montserrat_700Bold',
+    color: 'white',
   }
 });
 
 export default function Header() {
-  let [fontsLoaded, fontError] = useFonts({ Raleway_700Bold });
+  let [fontsLoaded, fontError] = useFonts({ Montserrat_700Bold });
 
-  const [currentDate, setCurrentDate] = useState(new Date());
+//   const [currentDate, setCurrentDate] = useState(new Date());
 
-  useEffect(() => {
-    const updateDateAndTime = () => {
-      setCurrentDate(new Date());
-    }
+//   useEffect(() => {
+//     const updateDateAndTime = () => {
+//       setCurrentDate(new Date());
+//     }
 
-    const intervalId = setInterval(updateDateAndTime, 30000); // Updates every minute
+//     const intervalId = setInterval(updateDateAndTime, 30000); // Updates every minute
 
-    return () => clearInterval(intervalId); // Clear the interval on component unmount
-}, []);
+//     return () => clearInterval(intervalId); // Clear the interval on component unmount
+// }, []);
 
   if (!fontsLoaded && !fontError) {
     return null;
@@ -38,8 +41,9 @@ export default function Header() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>{format(currentDate, 'cccc, LLLL d, yyyy')}</Text>
-      <Text style={styles.text}>{format(currentDate, 'HH:mm')}</Text>
+      {/* <Text style={styles.text}>{format(currentDate, 'cccc, LLLL d, yyyy')}</Text>
+      <Text style={styles.text}>{format(currentDate, 'HH:mm')}</Text> */}
+      <Text style={styles.text}>SugarGuardians</Text>
     </View>
   );
 }
