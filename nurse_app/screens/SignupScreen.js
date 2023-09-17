@@ -6,15 +6,16 @@ function SignupScreen({ navigation }) {
   const [nurseName, setNurseName] = useState('');
   const [nurseID, setNurseID] = useState('');
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
 
   const signup = () => {
-    fetch('http://localhost:8000/signup/', {
+    fetch('https://hophacks2023-w74ytc52eq-uc.a.run.app/signup/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ nurse_name: nurseName, nurseID, email, password }),
+      body: JSON.stringify({ nurse_name: nurseName, nurseID, phone, email, password }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -54,8 +55,8 @@ function SignupScreen({ navigation }) {
       </View>
       <View style={styles.inputContainer}>
         <Image style={styles.icon} source={require('../ph.png')}/>
-        <TextInput style={styles.input} placeholder="Phone (Optional)" onChangeText={setEmail}
-        value={email}/>
+        <TextInput style={styles.input} placeholder="Phone (Optional)" onChangeText={setPhone}
+        value={phone}/>
       </View>
       <View style={styles.inputContainer}>
         <Image style={styles.icon} source={require('../email.png')}/>
