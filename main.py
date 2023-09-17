@@ -39,7 +39,7 @@ class NurseBase(BaseModel):
     nurseID: str
     email: str
     password: str
-    phone: str
+    phone: int
 
 class NurseLogin(BaseModel):
     nurseID: str
@@ -221,6 +221,127 @@ async def calculate_titration_rate(body: TitrationRateInput = Body(...)):
             "action": None
         }
 
+@app.get("/nurse-patient-data/{nurse_id}")
+async def nurse_patient_data(nurse_id: int = Path(...)):
+    """Retrieves the currrent patient data for a given nurse."""
+
+    # Validate the nurse ID.
+    if not isinstance(nurse_id, int):
+        raise HTTPException(status_code=400, detail="Nurse ID must be an integer.")
+
+    # Get the nurse document from the nurses collection.
+    nurse = nurses_collection.find_one({"nurse_id": nurse_id})
+
+    # If the nurse document does not exist, raise an exception.
+    if nurse is None:
+        raise HTTPException(status_code=404, detail="Nurse not found.")
+
+    if not nurse.drip_started:
+        return ({"message", "No patient with active drip, click the button to start a drip.\n"})
+
+    return {"message": nurse.patient_document}
+
+
+@app.get("/get-all-patient-data/{nurse_id}")
+async def get_all_patient_data(nurse_id: int = Path(...)):
+    """Retrieves all patient data for a given nurse."""
+
+    # Validate the nurse ID.
+    if not isinstance(nurse_id, int):
+        raise HTTPException(status_code=400, detail="Nurse ID must be an integer.")
+
+    # Get the nurse document from the nurses collection.
+    nurse = nurses_collection.find_one({"nurse_id": nurse_id})
+
+    # If the nurse document does not exist, raise an exception.
+    if nurse is None:
+        raise HTTPException(status_code=404, detail="Nurse not found.")
+
+    # Get the patient IDs from the nurse document.
+    patient_ids = nurse["patient_ids"]
+
+    # Get the patient data from the patients collection.
+    patient_data = []
+    for patient_id in patient_ids:
+        patient = patients_collection.find_one({"patient_id": patient_id})
+
+        # If the patient document does not exist, raise an exception.
+        if patient is None:
+            raise HTTPException(status_code=404, detail="Patient not found.")
+
+        # Add the patient data to the list.
+        patient_data.append({
+            "patient_id": patient_id,
+            "first_name": patient["first_name"],
+            "last_name": patient["last_name"],
+            "date_of_birth": patient["date_of_birth"],
+            "room_no": patient["room_no"],
+            "hours_since_last_meal": patient["hours_since_last_meal"]
+        })
+
+    # Return the patient data.
+    return patient_data
+
+@app.get("/nurse-patient-data/{nurse_id}")
+async def nurse_patient_data(nurse_id: int = Path(...)):
+    """Retrieves the currrent patient data for a given nurse."""
+
+    # Validate the nurse ID.
+    if not isinstance(nurse_id, int):
+        raise HTTPException(status_code=400, detail="Nurse ID must be an integer.")
+
+    # Get the nurse document from the nurses collection.
+    nurse = nurses_collection.find_one({"nurse_id": nurse_id})
+
+    # If the nurse document does not exist, raise an exception.
+    if nurse is None:
+        raise HTTPException(status_code=404, detail="Nurse not found.")
+
+    if not nurse.drip_started:
+        return ({"message", "No patient with active drip, click the button to start a drip.\n"})
+
+    return {"message": nurse.patient_document}
+
+
+@app.get("/get-all-patient-data/{nurse_id}")
+async def get_all_patient_data(nurse_id: int = Path(...)):
+    """Retrieves all patient data for a given nurse."""
+
+    # Validate the nurse ID.
+    if not isinstance(nurse_id, int):
+        raise HTTPException(status_code=400, detail="Nurse ID must be an integer.")
+
+    # Get the nurse document from the nurses collection.
+    nurse = nurses_collection.find_one({"nurse_id": nurse_id})
+
+    # If the nurse document does not exist, raise an exception.
+    if nurse is None:
+        raise HTTPException(status_code=404, detail="Nurse not found.")
+
+    # Get the patient IDs from the nurse document.
+    patient_ids = nurse["patient_ids"]
+
+    # Get the patient data from the patients collection.
+    patient_data = []
+    for patient_id in patient_ids:
+        patient = patients_collection.find_one({"patient_id": patient_id})
+
+        # If the patient document does not exist, raise an exception.
+        if patient is None:
+            raise HTTPException(status_code=404, detail="Patient not found.")
+
+        # Add the patient data to the list.
+        patient_data.append({
+            "patient_id": patient_id,
+            "first_name": patient["first_name"],
+            "last_name": patient["last_name"],
+            "date_of_birth": patient["date_of_birth"],
+            "room_no": patient["room_no"],
+            "hours_since_last_meal": patient["hours_since_last_meal"]
+        })
+
+    # Return the patient data.
+    return patient_data
 
 
 @app.post("/signup/")
