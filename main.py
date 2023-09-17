@@ -34,9 +34,16 @@ patients_collection = db["patients"]
 nurses_collection = db["nurses"]
 twilio_client = TwilioClient(os.getenv("account_sid"), os.getenv("auth_token"))
 
+class NurseBase(BaseModel):
+    nurse_name: str
+    nurseID: str
+    email: str
+    password: str
+    phone: str
 
-
-
+class NurseLogin(BaseModel):
+    nurseID: str
+    password: str
 
 class NurseDataInput(BaseModel):
     nurse_id: int
@@ -130,90 +137,6 @@ def BG_range_to_titration_matrix_row(blood_glucose_measurement):
 async def hello_world():
     return {"message": "Hello, world!"}
 
-
-@app.post("/patient-data-input")
-async def patient_data_input(patient_data_input: PatientDataSchema = Body(...)):
-    """Stores patient data in MongoDB."""
-
-    # Validate the patient data input.
-    if patient_data_input.patient_name is None or patient_data_input.patient_name == "":
-        raise HTTPException(status_code=400, detail="Patient name is required.")
-    if patient_data_input.patient_id is None or patient_data_input.patient_id == 0:
-        raise HTTPException(status_code=400, detail="Patient ID is required.")
-    if patient_data_input.room_number is None or patient_data_input.room_number == 0:
-        raise HTTPException(status_code=400, detail="Room number is required.")
-    if patient_data_input.date_of_birth is None or patient_data_input.date_of_birth == "":
-        raise HTTPException(status_code=400, detail="Date of birth is required.")
-
-    # Insert the patient data into MongoDB.
-    patients_collection.insert_one(patient_data_input.dict())
-
-    # Return a success response.
-    return {"message": "Patient data stored successfully.", "patient_data": patient_data_input.dict()}
-
-
-@app.get("/nurse-patient-data/{nurse_id}")
-async def nurse_patient_data(nurse_id: int = Path(...)):
-    """Retrieves the currrent patient data for a given nurse."""
-
-    # Validate the nurse ID.
-    if not isinstance(nurse_id, int):
-        raise HTTPException(status_code=400, detail="Nurse ID must be an integer.")
-    
-    # Get the nurse document from the nurses collection.
-    nurse = nurses_collection.find_one({"nurse_id": nurse_id})
-
-    # If the nurse document does not exist, raise an exception.
-    if nurse is None:
-        raise HTTPException(status_code=404, detail="Nurse not found.")
-    
-    if not nurse.drip_started:
-        return ({"message", "No patient with active drip, click the button to start a drip.\n"})
-    
-    return {"message": nurse.patient_document}
-
-
-@app.get("/get-all-patient-data/{nurse_id}")
-async def get_all_patient_data(nurse_id: int = Path(...)):
-    """Retrieves all patient data for a given nurse."""
-
-    # Validate the nurse ID.
-    if not isinstance(nurse_id, int):
-        raise HTTPException(status_code=400, detail="Nurse ID must be an integer.")
-
-    # Get the nurse document from the nurses collection.
-    nurse = nurses_collection.find_one({"nurse_id": nurse_id})
-
-    # If the nurse document does not exist, raise an exception.
-    if nurse is None:
-        raise HTTPException(status_code=404, detail="Nurse not found.")
-
-    # Get the patient IDs from the nurse document.
-    patient_ids = nurse["patient_ids"]
-
-    # Get the patient data from the patients collection.
-    patient_data = []
-    for patient_id in patient_ids:
-        patient = patients_collection.find_one({"patient_id": patient_id})
-
-        # If the patient document does not exist, raise an exception.
-        if patient is None:
-            raise HTTPException(status_code=404, detail="Patient not found.")
-
-        # Add the patient data to the list.
-        patient_data.append({
-            "patient_id": patient_id,
-            "first_name": patient["first_name"],
-            "last_name": patient["last_name"],
-            "date_of_birth": patient["date_of_birth"],
-            "room_no": patient["room_no"],
-            "hours_since_last_meal": patient["hours_since_last_meal"]
-        })
-
-    # Return the patient data.
-    return patient_data
-
-
 def BG_to_D50W_dosage(blood_glucose_measurement):
     """Input BG measurement, in order to get D50W sugar (ml)"""
     if 80 <= blood_glucose_measurement <= 89:
@@ -300,15 +223,7 @@ async def calculate_titration_rate(body: TitrationRateInput = Body(...)):
     
 
 
-class NurseBase(BaseModel):
-    nurse_id: int
-    nurse_name: str
-    email: str
-    password: str
-    phone: int
-
-
-@app.post("/signup")
+@app.post("/signup/")
 async def create_nurse(background_tasks: BackgroundTasks, nurse: NurseBase):
     if db1.nurses.find_one({"nurseID": nurse.nurseID}):
         raise HTTPException(status_code=400, detail="NurseID already registered")
@@ -316,14 +231,16 @@ async def create_nurse(background_tasks: BackgroundTasks, nurse: NurseBase):
     db1.nurses.insert_one(nurse.dict())
     nurse_data1 = db1.nurses.find_one({"nurseID": nurse.nurseID})
     background_tasks.add_task(send_sms, nurse.phone)
-    return {"nurse_data": nurse.dict(), "message": "Nurse created successfully"}
+    return {"message": "Nurse created successfully"}
 
 
 @app.post("/login/")
 async def login_nurse(background_tasks: BackgroundTasks, nurse: NurseLogin):
     nurse_data = db1.nurses.find_one({"nurseID": nurse.nurseID, "password": nurse.password})
     if nurse_data:
-        background_tasks.add_task(send_sms, nurse.phone)
+        # nurse_data1 = db1.nurses.find_one("phone")
+        # print(nurse_data1);
+        # background_tasks.add_task(send_sms, nurse.phone)
         return {"message": "Login successful"}
 
     raise HTTPException(status_code=400, detail="Invalid credentials")
