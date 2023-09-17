@@ -3,3 +3,4 @@ pydantic
 pymongo
 python-dotenv
 uvicorn
+twilio
