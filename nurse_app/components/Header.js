@@ -41,8 +41,6 @@ export default function Header() {
 
   return (
     <View style={styles.container}>
-      {/* <Text style={styles.text}>{format(currentDate, 'cccc, LLLL d, yyyy')}</Text>
-      <Text style={styles.text}>{format(currentDate, 'HH:mm')}</Text> */}
       <Text style={styles.text}>SugarGuardians</Text>
     </View>
   );

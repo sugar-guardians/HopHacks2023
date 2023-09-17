@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet, Image, Platform, Animated } from 'react-native';
+import {
+  View, Text, TextInput, TouchableOpacity, Alert, StyleSheet, Image, Platform, Animated
+} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useFonts, Montserrat_700Bold } from '@expo-google-fonts/montserrat';
+
 
 function LoginScreen({ navigation }) {
   const [nurseID, setNurseID] = useState('');
   const [password, setPassword] = useState('');
+  let [fontsLoaded, fontError] = useFonts({ Montserrat_700Bold });
 
   const fadeAnim = useState(new Animated.Value(0))[0];  // Initial value for opacity: 0
 
@@ -17,7 +22,7 @@ function LoginScreen({ navigation }) {
         useNativeDriver: true,
       }
     ).start();
-  }, [fadeAnim])
+  }, [fadeAnim]);
 
   const login = () => {
     fetch('https://hophacks2023-w74ytc52eq-uc.a.run.app/login/', {
@@ -41,29 +46,44 @@ function LoginScreen({ navigation }) {
         console.error('Error:', error);
       });
   };
+
+  if (!fontsLoaded && !fontError) {
+    return null;
+  }
+
   return (
     <LinearGradient colors={['#989EF8', '#D0D7FF']} style={styles.container}>
-      {/* <Image style={styles.logo}/> */}
-      <View style={styles.logoContainer}>
-        <Image source={require('../logo.jpg')} style={styles.logo} />
-      </View>
-      <Text style={styles.header}>Login</Text>
-      
+      <Text style={styles.header}>SugarGuardians</Text>
       <Animated.View style={[styles.inputContainer, { opacity: fadeAnim }]}>
         <Image style={styles.icon} source={require('../email.png')}/>
-        <TextInput style={styles.input} placeholder="Nurse ID" onChangeText={setNurseID}
-        value={nurseID} />
+        <TextInput
+          onChangeText={setNurseID}
+          value={nurseID}
+          inputMode="text"
+          style={styles.input}
+          placeholder="Nurse ID"
+        />
       </Animated.View>
       <Animated.View style={[styles.inputContainer, { opacity: fadeAnim }]}>
-        <Image style={styles.icon} source={require('../password.png')}/>
-        <TextInput style={styles.input} placeholder="Password" onChangeText={setPassword}
-        value={password} secureTextEntry />
+        <Image style={styles.icon} source={require('../password.png')} />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          onChangeText={setPassword}
+          value={password}
+          inputMode="text"
+          secureTextEntry
+        />
       </Animated.View>
-      <TouchableOpacity style={styles.button} onPress={login}>
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button} onPress={login}>
+          <Text style={styles.buttonText}>Submit</Text>
+        </TouchableOpacity>
+      </View>
       <TouchableOpacity>
-        <Text style={styles.linkText} onPress={() => navigation.navigate('Signup')}>Don't have an account? Sign up</Text>
+        <Text style={styles.linkText} onPress={() => navigation.navigate('Signup')}>
+          Don't have an account? Sign up!
+        </Text>
       </TouchableOpacity>
     </LinearGradient>
   );
@@ -72,79 +92,67 @@ function LoginScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
-  },
-  logoContainer: {
     alignItems: 'center',
-    marginBottom: 20,
-  },
-  logo: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+    display: 'flex',
+    justifyContent: 'center'
   },
   header: {
-    fontFamily: 'Helvetica',
-    fontSize: 27,
+    fontSize: 44,
+    fontFamily: 'Montserrat_700Bold',
     textAlign: 'center',
-    marginVertical: 20,
+    paddingBottom: 50,
     color: '#000',
   },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderRadius: 20,  // Increased borderRadius to make the inputs more rounded
-    padding: 10,
-    marginBottom: 10,
-    backgroundColor: '#fff',
-  },
   icon: {
-    height: 20,  // Specify a height for your icons
-    width: 20,
-    marginRight: 10,
-  },
-  input: {
-    flex: 1,
-    height: 40,
+    height: 30,  // Specify a height for your icons
+    width: 30,
+    marginRight: 20,
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 1,
+    justifyContent: 'flex-start',
     borderRadius: 20,
-    padding: 10,
-    marginBottom: 10,
-    backgroundColor: '#fff',
-  },
-  icon: {
-    height: 20,
-    width: 20,
-    marginRight: 10,
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingLeft: 10,
+    paddingRight: 10,
+    marginBottom: 20,
+    width: '70%',
+    backgroundColor: '#CDC8C8',
   },
   input: {
-    flex: 1,
-    height: 40,
+    height: 50,
+    width: 150,
+    borderRadius: 10,
+    fontSize: 24,
+    textAlign: 'left',
+  },
+  buttonContainer: {
+    alignItems: 'center',
+    paddingTop: 30,
   },
   button: {
-    backgroundColor: '#6C63FF',
-    padding: 15,
-    borderRadius: 20,
-    alignItems: 'center',
+    backgroundColor: '#5116FB',
+    borderRadius: 30,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    elevation: 3, // For Android shadow
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
   },
-  button: {
-    backgroundColor: '#6C63FF',
-    padding: 15,
-    borderRadius: 20,
-    alignItems: 'center',
-    ...Platform.select({
-      web: { cursor: 'pointer' },
-    }),
+  buttonText: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
   },
   linkText: {
+    fontSize: 16,
     color: '#e3d',
     textAlign: 'center',
-    marginVertical: 15,
+    marginTop: 24,
     ...Platform.select({
       web: { cursor: 'pointer' },
     }),

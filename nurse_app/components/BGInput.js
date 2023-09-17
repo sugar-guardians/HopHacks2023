@@ -83,7 +83,6 @@ export default function BGInput({
           onChangeText={setBg}
           value={bg}
           keyboardType="numeric"
-          // inputMode="numeric"
           style={styles.input}
           textAlign="center"
           placeholder="BG"
