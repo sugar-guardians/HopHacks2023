@@ -14,7 +14,7 @@ function SignupScreen({ navigation }) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ nurse_name: nurseName, nurseID, email, password }),
+      body: JSON.stringify({ nurse_name: nurseName, nurseID, phone, email, password }),
     })
       .then((response) => response.json())
       .then((data) => {
