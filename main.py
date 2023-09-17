@@ -33,15 +33,10 @@ patients_collection = db["patients"]
 nurses_collection = db["nurses"]
 
 
-class NurseBase(BaseModel):
-    nurse_name: str
-    nurseID: str
-    email: str
-    password: str
-    phone: str
+
 
 class NurseLogin(BaseModel):
-    nurseID: str
+    nurse_id: str
     password: str
 
 class NurseDataInput(BaseModel):
@@ -306,10 +301,18 @@ async def calculate_titration_rate(body: TitrationRateInput = Body(...)):
     
 
 
-@app.post("/signup/")
+class NurseBase(BaseModel):
+    nurse_name: str
+    nurse_id: str
+    email: str
+    password: str
+    phone: int
+
+
+@app.post("/signup")
 async def create_nurse(background_tasks: BackgroundTasks, nurse: NurseBase):
     print('---------> successfully received request' )
-    if nurses_collection.find_one({"nurseID": nurse.nurseID}):
+    if nurses_collection.find_one({"nurse_id": nurse.nurseID}):
         raise HTTPException(status_code=400, detail="NurseID already registered")
     
     nurses_collection.insert_one(nurse.dict())
@@ -318,10 +321,11 @@ async def create_nurse(background_tasks: BackgroundTasks, nurse: NurseBase):
     return {"nurse_data": nurse_data, "message": "Nurse created successfully"}
 
 
-@app.post("/login/")
+@app.post("/login")
 async def login_nurse(background_tasks: BackgroundTasks, nurse: NurseLogin):
     print('---------> successfully received request' )
-    nurse_data = nurses_collection.find_one({"nurseID": nurse.nurseID, "password": nurse.password})
+
+    nurse_data = nurses_collection.find_one({"nurse_id": nurse.nurseID, "password": nurse.password})
     if nurse_data:
         background_tasks.add_task(send_sms, nurse.phone)
         return {"message": "Login successful"}
