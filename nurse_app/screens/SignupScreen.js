@@ -19,20 +19,20 @@ function SignupScreen({ navigation }) {
       },
       body: JSON.stringify({ nurse_name: nurseName, nurseID, phone, email, password }),
     })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.message) {
-          // Alert.alert('Success', data.message);
-          navigation.navigate('IntroVideo');
-          // navigation.navigate('Home', { nurseName: nurseName, nurseID: nurseID });
-          // navigation.navigate('Login');
-        } else {
-          Alert.alert('Failed', 'Could not register');
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.message) {
+        // Alert.alert('Success', data.message);
+        navigation.navigate('IntroVideo');
+        // navigation.navigate('Home', { nurseName: nurseName, nurseID: nurseID });
+        // navigation.navigate('Login');
+      } else {
+        Alert.alert('Failed', 'Could not register');
+      }
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
   };
   return (
     <LinearGradient colors={['#989EF8', '#D0D7FF']} style={styles.container}>
