@@ -1,6 +1,8 @@
+// import React, { useEffect } from 'react';
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import PatientCard from './PatientCard';
+// import * as Notifications from 'expo-notifications';
 
 
 const styles = StyleSheet.create({
@@ -27,6 +29,47 @@ const styles = StyleSheet.create({
 });
 
 export default function SelectPatientChild({ patients }) {
+  // useEffect(() => {
+  //   async function requestPermissions() {
+  //     const { status } = await Notifications.requestPermissionsAsync();
+  //     if (status !== 'granted') {
+  //       alert('No notification permissions. You will not be notified!');
+  //       return;
+  //     }
+  //   }
+  //   requestPermissions();
+  // }, []);
+  // useEffect(() => {
+  //   const timer = setInterval(() => {
+  //     Notifications.scheduleNotificationAsync({
+  //       content: {
+  //         title: "Reminder",
+  //         body: "Check sugar level",
+  //       },
+  //       trigger: null,
+  //     });
+  //     console.log('yo timer');
+  //     // navigation.goBack();
+  //   }, 20000);
+
+  //   return () => {
+  //     clearInterval(timer);
+  //   };
+  // });
+  // useEffect(() => {
+  //   async function sendTestNotification() {
+  //     await Notifications.scheduleNotificationAsync({
+  //       content: {
+  //         title: "Test",
+  //         body: "Notification test",
+  //       },
+  //       trigger: null,
+  //     });
+  //   }
+  
+  //   sendTestNotification();
+  // }, []);
+  
   return (
     <View style={styles.container}>
       <View style={styles.first}>

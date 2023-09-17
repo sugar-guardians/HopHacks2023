@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, Button, TouchableOpacity, StyleSheet } from 'react-native';
 import PatientCardAction from './PatientCardAction';
-
+import * as Notifications from 'expo-notifications';
 const styles = StyleSheet.create({
   container: {
     display: "flex",
@@ -41,6 +41,22 @@ const dateTime = "9/16/2023 @ 17:40"
 const newRate = 255
 
 export default function InstructionsChild() {
+  useEffect(() => {
+    const timer = setInterval(() => {
+      Notifications.scheduleNotificationAsync({
+        content: {
+          title: "Reminder",
+          body: "Check sugar level",
+        },
+        trigger: null,
+      });
+      navigation.goBack();
+    }, 20000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, [navigation]);
   return (
     <View style={styles.container}>
       <View style={styles.first}>

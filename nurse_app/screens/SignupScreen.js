@@ -53,6 +53,11 @@ function SignupScreen({ navigation }) {
       />
       </View>
       <View style={styles.inputContainer}>
+        <Image style={styles.icon} source={require('../ph.png')}/>
+        <TextInput style={styles.input} placeholder="Phone (Optional)" onChangeText={setEmail}
+        value={email}/>
+      </View>
+      <View style={styles.inputContainer}>
         <Image style={styles.icon} source={require('../email.png')}/>
         <TextInput style={styles.input} placeholder="Email" keyboardType="email-address" onChangeText={setEmail}
         value={email}/>
