@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, Button, TouchableOpacity, StyleSheet } from 'react-native';
+import { format } from 'date-fns';
 import PatientCardAction from './PatientCardAction';
 import BGInput from './BGInput';
 
@@ -65,6 +66,9 @@ const styles = StyleSheet.create({
   },
 });
 
+const dateObj = new Date();
+dateObj.setHours(dateObj.getHours() + 1);
+
 export default function ActionOptionsChild({
   id, firstName, lastName, bday, room, navigation
 }) {
@@ -89,7 +93,7 @@ export default function ActionOptionsChild({
         </View>
       </View>
       <View style={styles.third}>
-        <Text style={styles.text}>Your next BG is due at 14:40.</Text>
+        <Text style={styles.text}>Your next BG is due at {format(dateObj, 'HH:mm')}</Text>
         <BGInput
           id={id}
           navigation={navigation}

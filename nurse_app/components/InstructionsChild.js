@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, Button, TouchableOpacity, StyleSheet } from 'react-native';
+import { format } from 'date-fns';
 import PatientCardAction from './PatientCardAction';
 
 const styles = StyleSheet.create({
@@ -55,7 +56,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const dateTime = "9/16/2023 @ 17:40"
+const dateTime = format(new Date(), 'M/d/yyyy @ HH:mm');
 
 export default function InstructionsChild({
   navigate, rate, prevRate, currBg, prevBg, d50w, action,
