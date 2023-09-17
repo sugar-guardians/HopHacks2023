@@ -306,20 +306,20 @@ async def calculate_titration_rate(body: TitrationRateInput = Body(...)):
     
 
 
-@app.post("/signup/")
+@app.post("/signup")
 async def create_nurse(background_tasks: BackgroundTasks, nurse: NurseBase):
-    if db.nurses.find_one({"nurseID": nurse.nurseID}):
+    if nurses_collection.find_one({"nurseID": nurse.nurseID}):
         raise HTTPException(status_code=400, detail="NurseID already registered")
     
-    db.nurses.insert_one(nurse.dict())
-    nurse_data1 = db.nurses.find_one({"nurseID": nurse.nurseID})
+    nurses_collection.insert_one(nurse.dict())
+    nurse_data = nurses_collection.find_one({"nurseID": nurse.nurseID})
     background_tasks.add_task(send_sms, nurse.phone)
-    return {"message": "Nurse created successfully"}
+    return {"nurse_data": nurse_data, "message": "Nurse created successfully"}
 
 
-@app.post("/login/")
+@app.post("/login")
 async def login_nurse(background_tasks: BackgroundTasks, nurse: NurseLogin):
-    nurse_data = db.nurses.find_one({"nurseID": nurse.nurseID, "password": nurse.password})
+    nurse_data = nurses_collection.find_one({"nurseID": nurse.nurseID, "password": nurse.password})
     if nurse_data:
         background_tasks.add_task(send_sms, nurse.phone)
         return {"message": "Login successful"}
