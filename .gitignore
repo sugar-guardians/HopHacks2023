@@ -5,3 +5,4 @@ __pycache__/
 nurse_app/ios
 node_modules
 .env
+.coverage
