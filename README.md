@@ -18,3 +18,8 @@ React Native, FastAPI/Python, GCP Cloud Run/Cloud Build, MongoDB, Docker
 3. For fronend, navigate to the `nurse_app` directory and run `npm install`
 
 4. For database, we are using MongoDB Atlas, MongoDB's managed database service. No local installation necessary.
+
+## Testing
+
+`pytest --cov=main .` for % lines covered  
+`pytest --cov=main --cov-report=html` to generate code coverage report
