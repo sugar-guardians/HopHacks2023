@@ -6,3 +6,15 @@ A mobile app that simplifies the in-patient insulin titration process for patien
 
 [![Devpost](./docs/images/devpost-logo.svg)](https://devpost.com/software/569099)  
 [![Youtube](./docs/images/icons8-youtube.svg)](https://youtu.be/-ziZ5leNQZ4)
+
+## Tech Stack
+React Native, FastAPI/Python, GCP Cloud Run/Cloud Build, MongoDB, Docker
+
+## Environment Setup
+1. Clone the repo: `git clone https://github.com/sugar-guardians/HopHacks2023.git`
+
+2. For backend, install the Python dependencies: `pip install -r requirements.txt`
+
+3. For fronend, navigate to the `nurse_app` directory and run `npm install`
+
+4. For database, we are using MongoDB Atlas, MongoDB's managed database service. No local installation necessary.
