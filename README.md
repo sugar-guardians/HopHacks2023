@@ -4,5 +4,5 @@
 
 A mobile app that simplifies the in-patient insulin titration process for patients with high blood sugar. Simplifying, minimizing mistakes, saving people's lives.
 
-[![Devpost](./docs/images/devpost.svg)](https://devpost.com/software/569099)  
+[![Devpost](./docs/images/devpost-seeklogo.com.svg)](https://devpost.com/software/569099)  
 [![Youtube](./docs/images/icons8-youtube.svg)](https://youtu.be/-ziZ5leNQZ4)
