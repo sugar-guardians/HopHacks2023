@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+
 class PatientDataSchema(BaseModel):
     patient_name: str
     patient_id: int

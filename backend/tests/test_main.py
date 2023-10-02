@@ -1,7 +1,8 @@
 from fastapi.testclient import TestClient
-from main import app    # absolute import
+from main import app  # absolute import
 
 client = TestClient(app)
+
 
 def test_hello_world():
     response = client.get("/")

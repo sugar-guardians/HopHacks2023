@@ -77,7 +77,13 @@ TITRATION_MATRIX = make_titration_matrix()
 # print(titration_matrix[BG_range_to_titration_matrix_row(140)][0])
 
 
-def D50W_table(blood_glucose_measurement):
+def D50W_administration_ml(blood_glucose_measurement):
+    """
+    D50W refers to a medical abbreviation for a specific type 
+    of intravenous (IV) solution. It stands for "Dextrose 50% in Water." 
+    This solution contains 50 grams of dextrose (a type of sugar) dissolved 
+    in 100 milliliters of water.
+    """
     # input: BG measurement
     if 80 <= blood_glucose_measurement <= 89:
         return 0
