@@ -15,9 +15,13 @@ React Native, FastAPI/Python, GCP Cloud Run/Cloud Build, MongoDB, Docker
 
 2. For backend, install the Python dependencies: `pip install -r requirements.txt`
 
-3. For fronend, navigate to the `nurse_app` directory and run `npm install`
+To run: `uvicorn main:app --reload` or `python main.py`
 
-4. For database, we are using MongoDB Atlas, MongoDB's managed database service. No local installation necessary.
+4. For fronend, navigate to the `nurse_app` directory and run `npm install`
+
+5. For database, we are using MongoDB Atlas, MongoDB's managed database service. No local installation necessary.
+
+
 
 ## Testing
 
